@@ -1,9 +1,18 @@
-import { Prisma } from '@prisma/client'
+import { Prisma, Service } from '@prisma/client'
 
 import { prisma } from '@/lib/prisma'
 import { ServicesRepository } from '../interfaces/services.repository'
 
 export class PrismaServicesRepository implements ServicesRepository {
+  async save(data: Service) {
+    return await prisma.service.update({ 
+      where: {
+        id: data.id
+      },
+      data
+    })
+  }
+
   async create(data: Prisma.ServiceUncheckedCreateInput) {
     return await prisma.service.create({ data })
   }
