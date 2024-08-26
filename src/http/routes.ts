@@ -2,12 +2,13 @@ import { FastifyInstance } from 'fastify'
 
 import { jwtMiddleware } from '@/http/middlewares/jwt.middleware'
 import { authenticateUserController } from './controllers/authenticateUser.controller'
-import { registerUserController } from './controllers/registerUser.controller'
 import { profileController } from './controllers/profile.controller'
+import { registerUserController } from './controllers/registerUser.controller'
 import { registerClinicController } from './controllers/registerClinic.controller'
 import { registerServiceController } from './controllers/registerService.controller'
 import { registerPatientController } from './controllers/registerPatient.controller'
 import { registerScheduleController } from './controllers/registerSchedule.controller'
+import { listClinicsController } from './controllers/listClinics.controller'
 
 export async function appRoutes(app: FastifyInstance) {
   app.post('/sessions', authenticateUserController)
@@ -20,4 +21,5 @@ export async function appRoutes(app: FastifyInstance) {
   app.post('/clinics/:clinic_id/services', registerServiceController)
   app.post('/clinics/:clinic_id/patients', registerPatientController)
   app.post('/clinics/:clinic_id/schedules', registerScheduleController)
+  app.get('/clinics', listClinicsController)
 }

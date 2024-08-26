@@ -1,5 +1,4 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
-import { z } from 'zod'
 
 import { profileUseCaseFactory } from '@/useCases/factories/profileUseCase.factory'
 import { ResourceNotFoundError } from '@/errors/resourceNotFound.error'
