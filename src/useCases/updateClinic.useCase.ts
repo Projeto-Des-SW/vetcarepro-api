@@ -20,15 +20,9 @@ interface IResponse {
 }
 
 export class UpdateClinicUseCase {
-  constructor(private clinicsRepository: ClinicsRepository, private usersRepository: UsersRepository) {}
+  constructor(private clinicsRepository: ClinicsRepository) {}
 
   async execute({ user_id, clinic_id, cnpj, title, description, email, phone, address }: IRequest): Promise<IResponse> {
-    const user = await this.usersRepository.findById(user_id)
-
-    if (!user) {
-      throw new ResourceNotFoundError()
-    }
-
     const clinic = await this.clinicsRepository.findByIdAndUserId(clinic_id, user_id)
 
     if (!clinic) {
