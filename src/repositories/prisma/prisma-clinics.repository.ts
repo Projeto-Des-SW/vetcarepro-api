@@ -24,6 +24,14 @@ export class PrismaClinicsRepository implements ClinicsRepository {
     })
   }
 
+  async findByDocument(cnpj: string) {
+    return await prisma.clinic.findUnique({
+      where: {
+        cnpj
+      }
+    })
+  }
+
   async findByIdAndUserId(clinic_id: string, user_id: string) {
     return await prisma.clinic.findUnique({
       where: {

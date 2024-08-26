@@ -9,6 +9,7 @@ export async function registerClinicController(
   reply: FastifyReply
 ) {
   const register_body_schema = z.object({
+    cnpj: z.string(),
     title: z.string(),
     description: z.string(),
     email: z.string().email(),
@@ -16,7 +17,8 @@ export async function registerClinicController(
     address: z.string()
   })
 
-  const { 
+  const {
+    cnpj,
     title,
     description,
     email,
@@ -31,6 +33,7 @@ export async function registerClinicController(
 
     await registerClinicUseCase.execute({
       user_id,
+      cnpj,
       title,
       description,
       email,

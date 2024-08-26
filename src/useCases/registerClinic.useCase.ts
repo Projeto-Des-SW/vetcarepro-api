@@ -7,6 +7,7 @@ import { ResourceNotFoundError } from '@/errors/resourceNotFound.error'
 
 interface IRequest {
   user_id: string
+  cnpj: string
   title: string
   description: string
   email: string
@@ -21,7 +22,7 @@ interface IResponse {
 export class RegisterClinicUseCase {
   constructor(private clinicsRepository: ClinicsRepository, private usersRepository: UsersRepository) {}
 
-  async execute({ user_id, title, description, email, phone, address }: IRequest): Promise<IResponse> {
+  async execute({ user_id, cnpj, title, description, email, phone, address }: IRequest): Promise<IResponse> {
     const user = await this.usersRepository.findById(user_id)
 
     if (!user) {
@@ -34,8 +35,15 @@ export class RegisterClinicUseCase {
       throw new ClinicAlreadyExistsError()
     }
 
+    const clinic_with_same_cnpj = await this.clinicsRepository.findByDocument(cnpj)
+
+    if (clinic_with_same_cnpj) {
+      throw new ClinicAlreadyExistsError()
+    }
+
     const clinic = await this.clinicsRepository.create({ 
       user_id,
+      cnpj,
       title, 
       description, 
       email, 

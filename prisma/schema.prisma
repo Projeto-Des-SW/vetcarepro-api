@@ -23,6 +23,7 @@ model User {
 model Clinic {
   id          String   @id @default(uuid())
   title       String   @unique
+  cnpj        String   @unique
   email       String
   phone       String
   description String
