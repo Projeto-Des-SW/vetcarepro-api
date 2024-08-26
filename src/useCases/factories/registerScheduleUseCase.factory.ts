@@ -9,7 +9,7 @@ export function registerScheduleUseCaseFactory() {
   const patientsRepository = new PrismaPatientsRepository()
   const servicesRepository = new PrismaServicesRepository()
   const schedulesRepository = new PrismaSchedulesRepository()
-  const registerScheduleUseCase = new RegisterScheduleUseCase(schedulesRepository, patientsRepository, clinicsRepository, servicesRepository)
+  const registerScheduleUseCase = new RegisterScheduleUseCase(schedulesRepository, clinicsRepository, patientsRepository, servicesRepository)
 
   return registerScheduleUseCase
 }

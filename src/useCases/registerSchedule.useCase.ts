@@ -1,8 +1,8 @@
 import { Schedule } from '@prisma/client'
 
 import { SchedulesRepository } from '@/repositories/interfaces/schedules.repository'
-import { PatientsRepository } from '@/repositories/interfaces/patients.repository'
 import { ClinicsRepository } from '@/repositories/interfaces/clinics.repository'
+import { PatientsRepository } from '@/repositories/interfaces/patients.repository'
 import { ServicesRepository } from '@/repositories/interfaces/services.repository'
 import { ResourceNotFoundError } from '@/errors/resourceNotFound.error' 
 
@@ -11,7 +11,7 @@ interface IRequest {
   clinic_id: string
   patient_id: string
   service_id: string
-  date: string
+  date: Date
 }
 
 interface IResponse {
@@ -21,8 +21,8 @@ interface IResponse {
 export class RegisterScheduleUseCase {
   constructor(
     private schedulesRepository: SchedulesRepository, 
-    private patientsRepository: PatientsRepository, 
     private clinicsRepository: ClinicsRepository, 
+    private patientsRepository: PatientsRepository, 
     private servicesRepository: ServicesRepository
   ) {}
 
