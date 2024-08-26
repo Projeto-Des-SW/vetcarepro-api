@@ -1,7 +1,6 @@
 import { Clinic } from '@prisma/client'
 
 import { ClinicsRepository } from '@/repositories/interfaces/clinics.repository'
-import { UsersRepository } from '@/repositories/interfaces/users.repository'
 import { ResourceNotFoundError } from '@/errors/resourceNotFound.error'
 
 interface IRequest {
