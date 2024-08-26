@@ -10,6 +10,7 @@ import { registerPatientController } from './controllers/registerPatient.control
 import { registerScheduleController } from './controllers/registerSchedule.controller'
 import { listClinicsController } from './controllers/listClinics.controller'
 import { getClinicController } from './controllers/getClinic.controller'
+import { updateClinicController } from './controllers/updateClinic.controller'
 
 export async function appRoutes(app: FastifyInstance) {
   app.post('/sessions', authenticateUserController)
@@ -19,6 +20,7 @@ export async function appRoutes(app: FastifyInstance) {
   app.post('/clinics', registerClinicController)
   app.get('/clinics', listClinicsController)
   app.get('/clinics/:clinic_id', getClinicController)
+  app.put('/clinics/:clinic_id', updateClinicController)
   app.post('/clinics/:clinic_id/services', registerServiceController)
   app.post('/clinics/:clinic_id/patients', registerPatientController)
   app.post('/clinics/:clinic_id/schedules', registerScheduleController)

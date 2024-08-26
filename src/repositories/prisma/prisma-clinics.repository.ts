@@ -1,9 +1,18 @@
-import { Prisma } from '@prisma/client'
+import { Prisma, Clinic } from '@prisma/client'
 
 import { prisma } from '@/lib/prisma'
 import { ClinicsRepository } from '../interfaces/clinics.repository'
 
 export class PrismaClinicsRepository implements ClinicsRepository {
+  async save(data: Clinic) {
+    return await prisma.clinic.update({ 
+      where: {
+        id: data.id
+      },
+      data
+    })
+  }
+
   async create(data: Prisma.ClinicUncheckedCreateInput) {
     return await prisma.clinic.create({ data })
   }
