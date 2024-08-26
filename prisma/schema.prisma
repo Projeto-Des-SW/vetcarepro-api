@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -19,6 +13,79 @@ model User {
   email         String   @unique
   password_hash String
   created_at    DateTime @default(now())
+  updated_at    DateTime @default(now())
+
+  clinics Clinic[]
 
   @@map("users")
+}
+
+model Clinic {
+  id          String   @id @default(uuid())
+  title       String   @unique
+  email       String
+  phone       String
+  description String
+  address     String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now())
+
+  patients  Patient[]
+  services  Service[]
+  schedules Schedule[]
+
+  user    User   @relation(fields: [user_id], references: [id])
+  user_id String
+
+  @@map("clinics")
+}
+
+model Patient {
+  id               String   @id @default(uuid())
+  name             String
+  species          String
+  age              String
+  breed            String
+  guardian_name    String
+  guardian_cpf     String
+  guardian_contact String
+  created_at       DateTime @default(now())
+  updated_at       DateTime @default(now())
+
+  schedules Schedule[]
+
+  clinic    Clinic @relation(fields: [clinic_id], references: [id])
+  clinic_id String
+
+  @@map("patients")
+}
+
+model Service {
+  id     String @id @default(uuid())
+  title  String @unique
+  type   String
+  amount String
+
+  schedules Schedule[]
+
+  clinic    Clinic @relation(fields: [clinic_id], references: [id])
+  clinic_id String
+
+  @@map("services")
+}
+
+model Schedule {
+  id         String   @id @default(uuid())
+  date       DateTime
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  patient    Patient @relation(fields: [patient_id], references: [id])
+  patient_id String
+  service    Service @relation(fields: [service_id], references: [id])
+  service_id String
+  clinic     Clinic? @relation(fields: [clinic_id], references: [id])
+  clinic_id  String?
+
+  @@map("schedules")
 }
