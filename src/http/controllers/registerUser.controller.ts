@@ -24,6 +24,8 @@ export async function registerUserController(
       email,
       password
     })
+
+    return reply.status(201).send()
   } catch (error) {
     if (error instanceof UserAlreadyExistsError) {
       return reply.status(409).send({ message: error.message })
@@ -31,6 +33,4 @@ export async function registerUserController(
 
     throw error
   }
-
-  return reply.status(201).send()
 }
