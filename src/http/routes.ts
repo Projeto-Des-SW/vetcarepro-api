@@ -26,7 +26,7 @@ export async function appRoutes(app: FastifyInstance) {
   app.post('/sessions', authenticateUserController)
   app.post('/users', registerUserController)
 
-  app.addHook('onRequest', jwtMiddleware)
+  //app.addHook('onRequest', jwtMiddleware)
   
   app.get('/users/me', profileController)
   
