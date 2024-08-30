@@ -5,14 +5,23 @@ import cookie from '@fastify/cookie'
 import { ZodError } from 'zod'
 
 import { env } from './env'
-import { appRoutes } from './http/routes'
+import { clinicsRoute } from './http/routes/clinics.route'
+import { patientsRoute } from './http/routes/patients.route'
+import { schedulesRoute } from './http/routes/schedules.route'
+import { servicesRoute } from './http/routes/services.route'
+import { usersRoute } from './http/routes/users.route'
 
 export const app = fastify()
 
 app.register(cors)
 app.register(jwt, { secret: env.JWT_SECRET })
 app.register(cookie)
-app.register(appRoutes)
+
+app.register(clinicsRoute)
+app.register(patientsRoute)
+app.register(schedulesRoute)
+app.register(servicesRoute)
+app.register(usersRoute)
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
