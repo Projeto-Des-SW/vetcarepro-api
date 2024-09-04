@@ -7,14 +7,14 @@ export async function profileController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const user_id = request.user.sub
+  const id = request.user.sub
 
   try {
     const profileUseCase = profileUseCaseFactory()
 
-    const user = await profileUseCase.execute({ user_id })
+    const profile = await profileUseCase.execute({ id })
 
-    return reply.status(200).send(user)
+    return reply.status(200).send(profile)
   } catch (error) {
     if (error instanceof ResourceNotFoundError) {
       return reply.status(409).send({ message: error.message })

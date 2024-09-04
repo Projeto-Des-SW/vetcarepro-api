@@ -1,8 +1,9 @@
 import { UsersRepository } from '@/repositories/interfaces/users.repository'
+import { EmployeesRepository } from '@/repositories/interfaces/employees.repository'
 import { ResourceNotFoundError } from '@/errors/resourceNotFound.error'
 
 interface IRequest {
-  user_id: string
+  id: string
 }
 
 interface IResponse {
@@ -12,19 +13,30 @@ interface IResponse {
 }
 
 export class ProfileUseCase {
-  constructor(private usersRepository: UsersRepository) {}
+  constructor(private usersRepository: UsersRepository, private employeesRepository: EmployeesRepository) {}
 
-  async execute({ user_id }: IRequest): Promise<IResponse> {
-    const user = await this.usersRepository.findById(user_id)
+  async execute({ id }: IRequest): Promise<IResponse | undefined> {
+    const user = await this.usersRepository.findById(id)
+    const employee = await this.employeesRepository.findById(id)
 
-    if (!user) {
+    if (!user && !employee) {
       throw new ResourceNotFoundError()
     }
 
-    return { 
-      id: user.id,
-      name: user.name,
-      email: user.email
+    if (user) {
+      return { 
+        id: user.id,
+        name: user.name,
+        email: user.email
+      }
+    }
+
+    if (employee) {
+      return { 
+        id: employee.id,
+        name: employee.name,
+        email: employee.email
+      }
     }
   }
 }
