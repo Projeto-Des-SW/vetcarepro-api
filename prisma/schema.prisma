@@ -20,6 +20,20 @@ model User {
   @@map("users")
 }
 
+model Employee {
+  id            String   @id @default(uuid())
+  name          String
+  email         String   @unique
+  password_hash String
+  created_at    DateTime @default(now())
+  updated_at    DateTime @default(now())
+
+  clinic    Clinic  @relation(fields: [clinic_id], references: [id])
+  clinic_id String
+
+  @@map("employees")
+}
+
 model Clinic {
   id          String   @id @default(uuid())
   title       String   @unique
@@ -31,6 +45,7 @@ model Clinic {
   created_at  DateTime @default(now())
   updated_at  DateTime @default(now())
 
+  employees Employee[]
   patients  Patient[]
   services  Service[]
   schedules Schedule[]
