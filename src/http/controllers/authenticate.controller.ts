@@ -1,10 +1,10 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
 
-import { authenticateUserUseCaseFactory } from '@/useCases/factories/authenticateUserUseCase.factory'
+import { authenticateUseCaseFactory } from '@/useCases/factories/authenticateUseCase.factory'
 import { InvalidCredentialsError } from '@/errors/invalidCredentials.error'
 
-export async function authenticateUserController(
+export async function authenticateController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
@@ -16,9 +16,9 @@ export async function authenticateUserController(
   const { email, password } = authenticate_body_schema.parse(request.body)
 
   try {
-    const authenticateUserUseCase = authenticateUserUseCaseFactory()
+    const authenticateUseCase = authenticateUseCaseFactory()
 
-    const { user } = await authenticateUserUseCase.execute({
+    const authenticate = await authenticateUseCase.execute({
       email,
       password
     })
@@ -27,11 +27,10 @@ export async function authenticateUserController(
       {},
       {
         sign: {
-          sub: user.id,
+          sub: authenticate!.user.id,
         },
       },
     )
-
 
     return reply.status(200).send({ token })
   } catch (error) {
