@@ -1,4 +1,4 @@
-import { SchedulesRepository } from '@/repositories/interfaces/schedules.repository'
+import { PatientsRepository } from '@/repositories/interfaces/patients.repository'
 import { ClinicsRepository } from '@/repositories/interfaces/clinics.repository'
 import { EmployeesRepository } from '@/repositories/interfaces/employees.repository'
 import { ResourceNotFoundError } from '@/errors/resourceNotFound.error'
@@ -6,13 +6,13 @@ import { ResourceNotFoundError } from '@/errors/resourceNotFound.error'
 interface IRequest {
   user_id: string
   clinic_id: string
-  schedule_id: string
+  patient_id: string
 }
 
-export class DeleteScheduleUseCase {
-  constructor(private schedulesRepository: SchedulesRepository, private clinicsRepository: ClinicsRepository, private employeesRepository: EmployeesRepository) {}
+export class DeletePatientUseCase {
+  constructor(private patientsRepository: PatientsRepository, private clinicsRepository: ClinicsRepository, private employeesRepository: EmployeesRepository) {}
 
-  async execute({ user_id, clinic_id, schedule_id }: IRequest): Promise<void> {
+  async execute({ user_id, clinic_id, patient_id }: IRequest): Promise<void> {
     let clinic
 
     clinic = await this.clinicsRepository.findByClinicIdAndUserId(clinic_id, user_id)
@@ -27,12 +27,12 @@ export class DeleteScheduleUseCase {
       throw new ResourceNotFoundError()
     }
 
-    const schedule = await this.schedulesRepository.findByScheduleIdAndClinicId(schedule_id, clinic_id)
+    const patient = await this.patientsRepository.findByPatientIdAndClinicId(patient_id, clinic_id)
 
-    if (!schedule) {
+    if (!patient) {
       throw new ResourceNotFoundError()
     }
 
-    await this.schedulesRepository.delete(schedule_id)
+    await this.patientsRepository.delete(patient_id)
   }
 }
