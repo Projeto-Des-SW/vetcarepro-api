@@ -3,6 +3,7 @@ import { Patient } from '@prisma/client'
 import { PatientsRepository } from '@/repositories/interfaces/patients.repository'
 import { ClinicsRepository } from '@/repositories/interfaces/clinics.repository'
 import { PatientAlreadyExistsError } from '@/errors/patientAlreadyExists.error' 
+import { EmployeesRepository } from '@/repositories/interfaces/employees.repository'
 import { ResourceNotFoundError } from '@/errors/resourceNotFound.error' 
 
 interface IRequest {
@@ -22,18 +23,26 @@ interface IResponse {
 }
 
 export class RegisterPatientUseCase {
-  constructor(private patientsRepository: PatientsRepository, private clinicsRepository: ClinicsRepository) {}
+  constructor(private patientsRepository: PatientsRepository, private clinicsRepository: ClinicsRepository, private employeesRepository: EmployeesRepository) {}
 
   async execute({ user_id, clinic_id, name, species, age, breed, guardian_name, guardian_cpf, guardian_contact }: IRequest): Promise<IResponse> {
-    const clinic = await this.clinicsRepository.findByIdAndUserId(clinic_id, user_id)
+    let clinic
+
+    clinic = await this.clinicsRepository.findByClinicIdAndUserId(clinic_id, user_id)
+
+    if (!clinic) {
+      const employee = await this.employeesRepository.findById(user_id)
+
+      clinic = await this.clinicsRepository.findById(employee!.clinic_id)
+    }
 
     if (!clinic) {
       throw new ResourceNotFoundError()
     }
 
-    const patient_with_same_title = await this.patientsRepository.findByNameAndGuardianCpfAndClinicId(name, guardian_cpf, clinic_id)
+    const patient_with_same_name_and_guardian = await this.patientsRepository.findByNameAndGuardianCpfAndClinicId(name, guardian_cpf, clinic_id)
 
-    if (patient_with_same_title) {
+    if (patient_with_same_name_and_guardian) {
       throw new PatientAlreadyExistsError()
     }
 

@@ -4,6 +4,7 @@ import { SchedulesRepository } from '@/repositories/interfaces/schedules.reposit
 import { ClinicsRepository } from '@/repositories/interfaces/clinics.repository'
 import { PatientsRepository } from '@/repositories/interfaces/patients.repository'
 import { ServicesRepository } from '@/repositories/interfaces/services.repository'
+import { EmployeesRepository } from '@/repositories/interfaces/employees.repository'
 import { ResourceNotFoundError } from '@/errors/resourceNotFound.error' 
 
 interface IRequest {
@@ -23,11 +24,20 @@ export class RegisterScheduleUseCase {
     private schedulesRepository: SchedulesRepository, 
     private clinicsRepository: ClinicsRepository, 
     private patientsRepository: PatientsRepository, 
-    private servicesRepository: ServicesRepository
+    private servicesRepository: ServicesRepository,
+    private employeesRepository: EmployeesRepository
   ) {}
 
   async execute({ user_id, clinic_id, patient_id, service_id, date }: IRequest): Promise<IResponse> {
-    const clinic = await this.clinicsRepository.findByIdAndUserId(clinic_id, user_id)
+    let clinic
+
+    clinic = await this.clinicsRepository.findByClinicIdAndUserId(clinic_id, user_id)
+
+    if (!clinic) {
+      const employee = await this.employeesRepository.findById(user_id)
+
+      clinic = await this.clinicsRepository.findById(employee!.clinic_id)
+    }
 
     if (!clinic) {
       throw new ResourceNotFoundError()
