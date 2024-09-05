@@ -1,6 +1,7 @@
 import { Prisma, Service } from '@prisma/client'
 
 export interface ServicesRepository {
+  delete(service_id: string): Promise<void>
   save(data: Service): Promise<Service>
   create(data: Prisma.ServiceUncheckedCreateInput): Promise<Service>
   findById(id: string): Promise<Service | null>

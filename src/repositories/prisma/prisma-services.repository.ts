@@ -4,6 +4,14 @@ import { prisma } from '@/lib/prisma'
 import { ServicesRepository } from '../interfaces/services.repository'
 
 export class PrismaServicesRepository implements ServicesRepository {
+  async delete(service_id: string) {
+    await prisma.service.delete({
+      where: {
+        id: service_id
+      }
+    })
+  }
+
   async save(data: Service) {
     return await prisma.service.update({ 
       where: {
@@ -46,7 +54,7 @@ export class PrismaServicesRepository implements ServicesRepository {
   async listByClinicId(clinic_id: string) {
     return await prisma.service.findMany({
       where: {
-        clinic_id,
+        clinic_id
       }
     })
   }
