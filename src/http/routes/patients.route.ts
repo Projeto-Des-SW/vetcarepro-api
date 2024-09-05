@@ -1,7 +1,6 @@
 import { FastifyInstance } from 'fastify'
 
 import { jwtMiddleware } from '@/http/middlewares/jwt.middleware'
-import { userMiddleware } from '@/http/middlewares/user.middleware'
 import { registerPatientController } from '../controllers/registerPatient.controller'
 import { listPatientsController } from '../controllers/listPatients.controller'
 import { getPatientController } from '../controllers/getPatient.controller'
@@ -15,5 +14,5 @@ export async function patientsRoute(app: FastifyInstance) {
   app.get('/clinics/:clinic_id/patients', listPatientsController)
   app.get('/clinics/:clinic_id/patients/:patient_id', getPatientController)
   app.put('/clinics/:clinic_id/patients/:patient_id', updatePatientController)
-  app.delete('/clinics/:clinic_id/patients/:patient_id', { onRequest: [userMiddleware] }, deletePatientController)
+  app.delete('/clinics/:clinic_id/patients/:patient_id', deletePatientController)
 }

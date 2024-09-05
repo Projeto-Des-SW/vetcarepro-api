@@ -16,5 +16,5 @@ export async function employeesRoute(app: FastifyInstance) {
   app.get('/clinics/:clinic_id/employees', listEmployeesController)
   app.get('/clinics/:clinic_id/employees/:employee_id', getEmployeeController)
   app.put('/clinics/:clinic_id/employees/:employee_id', updateEmployeeController)
-  app.delete('/clinics/:clinic_id/employees/:employee_id', { onRequest: [userMiddleware] }, deleteEmployeeController)
+  app.delete('/clinics/:clinic_id/employees/:employee_id', deleteEmployeeController)
 }
