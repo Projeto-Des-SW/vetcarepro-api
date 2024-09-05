@@ -34,7 +34,7 @@ export class UpdateScheduleUseCase {
       throw new ResourceNotFoundError()
     }
 
-    const schedule = await this.schedulesRepository.findByIdAndClinicId(schedule_id, clinic_id)
+    const schedule = await this.schedulesRepository.findByScheduleIdAndClinicId(schedule_id, clinic_id)
 
     if (!schedule) {
       throw new ResourceNotFoundError()

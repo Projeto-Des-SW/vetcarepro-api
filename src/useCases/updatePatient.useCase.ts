@@ -40,7 +40,7 @@ export class UpdatePatientUseCase {
       throw new ResourceNotFoundError()
     }
     
-    const patient = await this.patientsRepository.findByIdAndClinicId(patient_id, clinic_id)
+    const patient = await this.patientsRepository.findByPatientIdAndClinicId(patient_id, clinic_id)
 
     if (!patient) {
       throw new ResourceNotFoundError()

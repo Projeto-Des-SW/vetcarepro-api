@@ -33,7 +33,7 @@ export class PrismaSchedulesRepository implements SchedulesRepository {
     })
   }
 
-  async findByIdAndClinicId(schedule_id: string, clinic_id: string) {
+  async findByScheduleIdAndClinicId(schedule_id: string, clinic_id: string) {
     return await prisma.schedule.findUnique({
       where: {
         id: schedule_id,

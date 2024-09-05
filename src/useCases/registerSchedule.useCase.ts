@@ -43,13 +43,13 @@ export class RegisterScheduleUseCase {
       throw new ResourceNotFoundError()
     }
 
-    const patient = await this.patientsRepository.findByIdAndClinicId(patient_id, clinic_id)
+    const patient = await this.patientsRepository.findByPatientIdAndClinicId(patient_id, clinic_id)
 
     if (!patient) {
       throw new ResourceNotFoundError()
     }
 
-    const service = await this.servicesRepository.findByIdAndClinicId(service_id, clinic_id)
+    const service = await this.servicesRepository.findByServiceIdAndClinicId(service_id, clinic_id)
 
     if (!service) {
       throw new ResourceNotFoundError()

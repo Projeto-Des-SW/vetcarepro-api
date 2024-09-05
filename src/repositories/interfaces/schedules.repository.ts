@@ -5,6 +5,6 @@ export interface SchedulesRepository {
   save(data: Schedule): Promise<Schedule>
   create(data: Prisma.ScheduleUncheckedCreateInput): Promise<Schedule>
   findById(id: string): Promise<Schedule | null>
-  findByIdAndClinicId(schedule_id: string, clinic_id: string): Promise<Schedule | null>
+  findByScheduleIdAndClinicId(schedule_id: string, clinic_id: string): Promise<Schedule | null>
   listByClinicId(clinic_id: string): Promise<Schedule[]>
 }

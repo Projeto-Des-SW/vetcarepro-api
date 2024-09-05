@@ -27,7 +27,7 @@ export class UpdateServiceUseCase {
       throw new ResourceNotFoundError()
     }
 
-    const service = await this.servicesRepository.findByIdAndClinicId(service_id, clinic_id)
+    const service = await this.servicesRepository.findByServiceIdAndClinicId(service_id, clinic_id)
 
     if (!service) {
       throw new ResourceNotFoundError()

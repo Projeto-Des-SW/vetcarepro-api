@@ -33,7 +33,7 @@ export class PrismaPatientsRepository implements PatientsRepository {
     })
   }
 
-  async findByIdAndClinicId(patient_id: string, clinic_id: string) {
+  async findByPatientIdAndClinicId(patient_id: string, clinic_id: string) {
     return await prisma.patient.findUnique({
       where: {
         id: patient_id,

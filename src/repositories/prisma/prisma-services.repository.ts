@@ -33,19 +33,19 @@ export class PrismaServicesRepository implements ServicesRepository {
     })
   }
 
-  async findByIdAndClinicId(service_id: string, clinic_id: string) {
+  async findByTitleAndClinicId(id: string, clinic_id: string) {
     return await prisma.service.findUnique({
       where: {
-        id: service_id,
+        id,
         clinic_id
       }
     })
   }
 
-  async findByTitleAndClinicId(id: string, clinic_id: string) {
+  async findByServiceIdAndClinicId(service_id: string, clinic_id: string) {
     return await prisma.service.findUnique({
       where: {
-        id,
+        id: service_id,
         clinic_id
       }
     })
