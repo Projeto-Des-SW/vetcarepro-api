@@ -2,6 +2,7 @@ import { Patient } from '@prisma/client'
 
 import { PatientsRepository } from '@/repositories/interfaces/patients.repository'
 import { ClinicsRepository } from '@/repositories/interfaces/clinics.repository'
+import { EmployeesRepository } from '@/repositories/interfaces/employees.repository'
 import { ResourceNotFoundError } from '@/errors/resourceNotFound.error'
 
 interface IRequest {
@@ -22,15 +23,23 @@ interface IResponse {
 }
 
 export class UpdatePatientUseCase {
-  constructor(private patientsRepository: PatientsRepository, private clinicsRepository: ClinicsRepository) {}
+  constructor(private patientsRepository: PatientsRepository, private clinicsRepository: ClinicsRepository, private employeesRepository: EmployeesRepository) {}
 
   async execute({ user_id, clinic_id, patient_id, name, species, age, breed, guardian_cpf, guardian_name, guardian_contact }: IRequest): Promise<IResponse> {
-    const clinic = await this.clinicsRepository.findByIdAndUserId(clinic_id, user_id)
+    let clinic
+
+    clinic = await this.clinicsRepository.findByClinicIdAndUserId(clinic_id, user_id)
+
+    if (!clinic) {
+      const employee = await this.employeesRepository.findById(user_id)
+
+      clinic = await this.clinicsRepository.findById(employee!.clinic_id)
+    }
 
     if (!clinic) {
       throw new ResourceNotFoundError()
     }
-
+    
     const patient = await this.patientsRepository.findByIdAndClinicId(patient_id, clinic_id)
 
     if (!patient) {
