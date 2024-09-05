@@ -15,7 +15,7 @@ export async function registerScheduleController(
   const register_body_schema = z.object({
     patient_id: z.string().uuid(),
     service_id: z.string().uuid(),
-    date: z.date()
+    date: z.string()
   })
 
   const { clinic_id } = register_params_schema.parse(request.params)
@@ -32,7 +32,7 @@ export async function registerScheduleController(
       clinic_id,
       patient_id,
       service_id,
-      date
+      date: new Date(date)
     })
 
     return reply.status(201).send()
