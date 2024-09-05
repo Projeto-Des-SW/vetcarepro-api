@@ -1,11 +1,11 @@
 import { PrismaUsersRepository } from '@/repositories/prisma/prisma-users.repository'
 import { PrismaEmployeesRepository } from '@/repositories/prisma/prisma-employees.repository'
-import { ProfileUseCase } from '@/useCases/profile.useCase'
+import { GetProfileUseCase } from '@/useCases/getProfile.useCase'
 
-export function profileUseCaseFactory() {
+export function getProfileUseCaseFactory() {
   const usersRepository = new PrismaUsersRepository()
   const employeesRepository = new PrismaEmployeesRepository()
-  const profileUseCase = new ProfileUseCase(usersRepository, employeesRepository)
+  const getProfileUseCase = new GetProfileUseCase(usersRepository, employeesRepository)
 
-  return profileUseCase
+  return getProfileUseCase
 }

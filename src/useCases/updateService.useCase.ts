@@ -21,7 +21,7 @@ export class UpdateServiceUseCase {
   constructor(private servicesRepository: ServicesRepository, private clinicsRepository: ClinicsRepository) {}
 
   async execute({ user_id, clinic_id, service_id, title, type, amount }: IRequest): Promise<IResponse> {
-    const clinic = await this.clinicsRepository.findByIdAndUserId(clinic_id, user_id)
+    const clinic = await this.clinicsRepository.findByClinicIdAndUserId(clinic_id, user_id)
 
     if (!clinic) {
       throw new ResourceNotFoundError()

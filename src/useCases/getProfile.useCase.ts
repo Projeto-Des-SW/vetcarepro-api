@@ -12,7 +12,7 @@ interface IResponse {
   email: string
 }
 
-export class ProfileUseCase {
+export class GetProfileUseCase {
   constructor(private usersRepository: UsersRepository, private employeesRepository: EmployeesRepository) {}
 
   async execute({ id }: IRequest): Promise<IResponse | undefined> {

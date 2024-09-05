@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 
-import { profileUseCaseFactory } from '@/useCases/factories/profileUseCase.factory'
+import { getProfileUseCaseFactory } from '@/useCases/factories/getProfileUseCase.factory'
 import { ResourceNotFoundError } from '@/errors/resourceNotFound.error'
 
 export async function profileController(
@@ -10,9 +10,9 @@ export async function profileController(
   const id = request.user.sub
 
   try {
-    const profileUseCase = profileUseCaseFactory()
+    const getProfileUseCase = getProfileUseCaseFactory()
 
-    const profile = await profileUseCase.execute({ id })
+    const profile = await getProfileUseCase.execute({ id })
 
     return reply.status(200).send(profile)
   } catch (error) {
