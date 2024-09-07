@@ -56,7 +56,12 @@ export class PrismaPatientsRepository implements PatientsRepository {
     return await prisma.patient.findMany({
       where: {
         clinic_id
-      }
+      },
+      orderBy: [
+        {
+          created_at: 'desc'
+        }
+      ]
     })
   }
 }

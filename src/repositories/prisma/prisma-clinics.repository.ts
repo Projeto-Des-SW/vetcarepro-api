@@ -62,7 +62,12 @@ export class PrismaClinicsRepository implements ClinicsRepository {
     return await prisma.clinic.findMany({
       where: {
         user_id
-      }
+      },
+      orderBy: [
+        {
+          title: 'asc'
+        }
+      ]
     })
   }
 }

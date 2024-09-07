@@ -38,6 +38,11 @@ export class PrismaSchedulesRepository implements SchedulesRepository {
       where: {
         id: schedule_id,
         clinic_id
+      },
+      include: {
+        clinic: true,
+        patient: true,
+        service: true
       }
     })
   }
@@ -46,6 +51,16 @@ export class PrismaSchedulesRepository implements SchedulesRepository {
     return await prisma.schedule.findMany({
       where: {
         clinic_id,
+      },
+      orderBy: [
+        {
+          created_at: 'desc'
+        }
+      ],
+      include: {
+        clinic: true,
+        patient: true,
+        service: true
       }
     })
   }

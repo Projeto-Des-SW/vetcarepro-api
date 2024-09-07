@@ -54,7 +54,12 @@ export class PrismaEmployeesRepository implements EmployeesRepository {
     return await prisma.employee.findMany({
       where: {
         clinic_id
-      }
+      },
+      orderBy: [
+        {
+          name: 'asc'
+        }
+      ]
     })
   }
 }

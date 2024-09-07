@@ -55,7 +55,12 @@ export class PrismaServicesRepository implements ServicesRepository {
     return await prisma.service.findMany({
       where: {
         clinic_id
-      }
+      },
+      orderBy: [
+        {
+          title: 'asc'
+        }
+      ]
     })
   }
 }
