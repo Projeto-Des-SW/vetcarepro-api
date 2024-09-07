@@ -28,7 +28,7 @@ model Employee {
   created_at    DateTime @default(now())
   updated_at    DateTime @default(now())
 
-  clinic    Clinic  @relation(fields: [clinic_id], references: [id])
+  clinic    Clinic @relation(fields: [clinic_id], references: [id])
   clinic_id String
 
   @@map("employees")
@@ -45,13 +45,15 @@ model Clinic {
   created_at  DateTime @default(now())
   updated_at  DateTime @default(now())
 
-  employees Employee[]
-  patients  Patient[]
-  services  Service[]
-  schedules Schedule[]
-
   user    User   @relation(fields: [user_id], references: [id])
   user_id String
+
+  employees       Employee[]
+  patients        Patient[]
+  services        Service[]
+  schedules       Schedule[]
+  products_stock  ProductStock[]
+  purchases_sales PurchaseSale[]
 
   @@map("clinics")
 }
@@ -68,24 +70,27 @@ model Patient {
   created_at       DateTime @default(now())
   updated_at       DateTime @default(now())
 
-  schedules Schedule[]
-
   clinic    Clinic @relation(fields: [clinic_id], references: [id])
   clinic_id String
+
+  schedules       Schedule[]
+  purchases_sales PurchaseSale[]
 
   @@map("patients")
 }
 
 model Service {
-  id     String @id @default(uuid())
-  title  String @unique
-  type   String
-  amount String
-
-  schedules Schedule[]
+  id         String   @id @default(uuid())
+  title      String   @unique
+  type       String
+  amount     String
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
 
   clinic    Clinic @relation(fields: [clinic_id], references: [id])
   clinic_id String
+
+  schedules Schedule[]
 
   @@map("services")
 }
@@ -96,12 +101,38 @@ model Schedule {
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 
+  clinic     Clinic? @relation(fields: [clinic_id], references: [id])
+  clinic_id  String?
   patient    Patient @relation(fields: [patient_id], references: [id])
   patient_id String
   service    Service @relation(fields: [service_id], references: [id])
   service_id String
-  clinic     Clinic? @relation(fields: [clinic_id], references: [id])
-  clinic_id  String?
 
   @@map("schedules")
+}
+
+model ProductStock {
+  id         String   @id @default(uuid())
+  date       DateTime
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  clinic    Clinic? @relation(fields: [clinic_id], references: [id])
+  clinic_id String?
+
+  @@map("products_stock")
+}
+
+model PurchaseSale {
+  id         String   @id @default(uuid())
+  date       DateTime
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  clinic     Clinic? @relation(fields: [clinic_id], references: [id])
+  clinic_id  String?
+  patient    Patient @relation(fields: [patient_id], references: [id])
+  patient_id String
+
+  @@map("purchases_sales")
 }
