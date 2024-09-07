@@ -76,12 +76,13 @@ model Patient {
   schedules       Schedule[]
   purchases_sales PurchaseSale[]
 
+  @@unique([name, clinic_id])
   @@map("patients")
 }
 
 model Service {
   id         String   @id @default(uuid())
-  title      String   @unique
+  title      String
   type       String
   amount     String
   created_at DateTime @default(now())
@@ -92,6 +93,7 @@ model Service {
 
   schedules Schedule[]
 
+  @@unique([title, clinic_id])
   @@map("services")
 }
 
@@ -113,26 +115,31 @@ model Schedule {
 
 model ProductStock {
   id         String   @id @default(uuid())
-  date       DateTime
+  title      String
+  amount     String
+  quantity   String
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 
-  clinic    Clinic? @relation(fields: [clinic_id], references: [id])
-  clinic_id String?
+  clinic       Clinic?        @relation(fields: [clinic_id], references: [id])
+  clinic_id    String?
+  PurchaseSale PurchaseSale[]
 
+  @@unique([title, clinic_id])
   @@map("products_stock")
 }
 
 model PurchaseSale {
   id         String   @id @default(uuid())
-  date       DateTime
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 
-  clinic     Clinic? @relation(fields: [clinic_id], references: [id])
-  clinic_id  String?
-  patient    Patient @relation(fields: [patient_id], references: [id])
-  patient_id String
+  clinic           Clinic?      @relation(fields: [clinic_id], references: [id])
+  clinic_id        String?
+  patient          Patient      @relation(fields: [patient_id], references: [id])
+  patient_id       String
+  product_stock    ProductStock @relation(fields: [product_stock_id], references: [id])
+  product_stock_id String
 
   @@map("purchases_sales")
 }
