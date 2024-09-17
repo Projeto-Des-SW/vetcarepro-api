@@ -64,4 +64,23 @@ export class PrismaSchedulesRepository implements SchedulesRepository {
       }
     })
   }
+
+  async listByClinicIdAndPatientId(clinic_id: string, patient_id: string) {
+    return await prisma.schedule.findMany({
+      where: {
+        clinic_id,
+        patient_id
+      },
+      orderBy: [
+        {
+          created_at: 'desc'
+        }
+      ],
+      include: {
+        clinic: true,
+        patient: true,
+        service: true
+      }
+    })
+  }
 }
