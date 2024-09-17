@@ -4,14 +4,6 @@ import { prisma } from '@/lib/prisma'
 import { ClinicsRepository } from '../interfaces/clinics.repository'
 
 export class PrismaClinicsRepository implements ClinicsRepository {
-  async delete(clinic_id: string) {
-    await prisma.clinic.delete({
-      where: {
-        id: clinic_id
-      }
-    })
-  }
-  
   async save(data: Clinic) {
     return await prisma.clinic.update({ 
       where: {
@@ -61,7 +53,8 @@ export class PrismaClinicsRepository implements ClinicsRepository {
   async listByUserId(user_id: string) {
     return await prisma.clinic.findMany({
       where: {
-        user_id
+        user_id,
+        status: true
       },
       orderBy: [
         {

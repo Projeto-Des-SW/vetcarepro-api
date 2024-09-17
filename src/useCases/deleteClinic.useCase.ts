@@ -15,6 +15,7 @@ export class DeleteClinicUseCase {
       throw new ResourceNotFoundError()
     }
 
-    await this.clinicsRepository.delete(clinic_id)
+    clinic.status = false
+    await this.clinicsRepository.save(clinic)
   }
 }

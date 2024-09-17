@@ -1,7 +1,6 @@
 import { Prisma, Patient } from '@prisma/client'
 
 export interface PatientsRepository {
-  delete(patient_id: string): Promise<void>
   save(data: Patient): Promise<Patient>
   create(data: Prisma.PatientUncheckedCreateInput): Promise<Patient>
   findById(id: string): Promise<Patient | null>

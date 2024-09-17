@@ -23,6 +23,7 @@ export class DeleteServiceUseCase {
       throw new ResourceNotFoundError()
     }
 
-    await this.servicesRepository.delete(service_id)
+    service.status = false
+    await this.servicesRepository.save(service)
   }
 }

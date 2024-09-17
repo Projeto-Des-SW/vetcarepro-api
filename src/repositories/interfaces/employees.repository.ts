@@ -1,7 +1,6 @@
 import { Prisma, Employee } from '@prisma/client'
 
 export interface EmployeesRepository {
-  delete(employee_id: string): Promise<void>
   save(data: Employee): Promise<Employee>
   create(data: Prisma.EmployeeUncheckedCreateInput): Promise<Employee>
   findById(id: string): Promise<Employee | null>

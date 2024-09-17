@@ -33,6 +33,7 @@ export class DeletePatientUseCase {
       throw new ResourceNotFoundError()
     }
 
-    await this.patientsRepository.delete(patient_id)
+    patient.status = false
+    await this.patientsRepository.save(patient)
   }
 }

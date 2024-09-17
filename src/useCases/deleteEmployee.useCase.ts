@@ -23,6 +23,7 @@ export class DeleteEmployeeUseCase {
       throw new ResourceNotFoundError()
     }
 
-    await this.employeesRepository.delete(employee_id)
+    employee.status = false
+    await this.employeesRepository.save(employee)
   }
 }

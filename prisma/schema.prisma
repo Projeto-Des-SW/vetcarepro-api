@@ -25,6 +25,7 @@ model Employee {
   name          String
   email         String   @unique
   password_hash String
+  status        Boolean  @default(true)
   created_at    DateTime @default(now())
   updated_at    DateTime @default(now())
 
@@ -42,6 +43,7 @@ model Clinic {
   phone       String
   description String
   address     String
+  status      Boolean  @default(true)
   created_at  DateTime @default(now())
   updated_at  DateTime @default(now())
 
@@ -67,6 +69,7 @@ model Patient {
   guardian_name    String
   guardian_cpf     String
   guardian_contact String
+  status           Boolean  @default(true)
   created_at       DateTime @default(now())
   updated_at       DateTime @default(now())
 
@@ -85,6 +88,7 @@ model Service {
   title      String
   type       String
   amount     String
+  status     Boolean  @default(true)
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 

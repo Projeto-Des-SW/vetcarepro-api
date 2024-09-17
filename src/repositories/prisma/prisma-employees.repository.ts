@@ -4,14 +4,6 @@ import { prisma } from '@/lib/prisma'
 import { EmployeesRepository } from '../interfaces/employees.repository'
 
 export class PrismaEmployeesRepository implements EmployeesRepository {
-  async delete(employee_id: string) {
-    await prisma.employee.delete({
-      where: {
-        id: employee_id
-      }
-    })
-  }
-
   async save(data: Employee) {
     return await prisma.employee.update({ 
       where: {
@@ -53,7 +45,8 @@ export class PrismaEmployeesRepository implements EmployeesRepository {
   async listByClinicId(clinic_id: string) {
     return await prisma.employee.findMany({
       where: {
-        clinic_id
+        clinic_id,
+        status: true
       },
       orderBy: [
         {
