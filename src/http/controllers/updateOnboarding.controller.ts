@@ -15,13 +15,13 @@ export async function updateOnboardingController(
 
   const { onboarding } = register_body_schema.parse(request.body)
 
-  const id = request.user.sub
+  const user_id = request.user.sub
 
   try {
     const updateOnboardingUseCase = updateOnboardingUseCaseFactory()
 
     await updateOnboardingUseCase.execute({
-      id,
+      user_id,
       onboarding
     })
 

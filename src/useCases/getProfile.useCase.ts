@@ -3,7 +3,7 @@ import { EmployeesRepository } from '@/repositories/interfaces/employees.reposit
 import { ResourceNotFoundError } from '@/errors/resourceNotFound.error'
 
 interface IRequest {
-  id: string
+  user_id: string
 }
 
 interface IResponse {
@@ -15,9 +15,9 @@ interface IResponse {
 export class GetProfileUseCase {
   constructor(private usersRepository: UsersRepository, private employeesRepository: EmployeesRepository) {}
 
-  async execute({ id }: IRequest): Promise<IResponse | undefined> {
-    const user = await this.usersRepository.findById(id)
-    const employee = await this.employeesRepository.findById(id)
+  async execute({ user_id }: IRequest): Promise<IResponse | undefined> {
+    const user = await this.usersRepository.findById(user_id)
+    const employee = await this.employeesRepository.findById(user_id)
 
     if (!user && !employee) {
       throw new ResourceNotFoundError()

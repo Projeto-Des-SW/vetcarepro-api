@@ -8,7 +8,7 @@ import { UserAlreadyExistsError } from '@/errors/userAlreadyExists.error'
 import { ResourceNotFoundError } from '@/errors/resourceNotFound.error'
 
 interface IRequest {
-  id: string
+  user_id: string
   name: string
   email: string
   password: string
@@ -22,9 +22,9 @@ interface IResponse {
 export class UpdateProfileUseCase {
   constructor(private usersRepository: UsersRepository, private employeesRepository: EmployeesRepository, private hashProvider: HashProvider) {}
 
-  async execute({ id, name, email, password }: IRequest): Promise<IResponse | undefined> {
-    const user = await this.usersRepository.findById(id)
-    const employee = await this.employeesRepository.findById(id)
+  async execute({ user_id, name, email, password }: IRequest): Promise<IResponse | undefined> {
+    const user = await this.usersRepository.findById(user_id)
+    const employee = await this.employeesRepository.findById(user_id)
 
     if (!user && !employee) {
       throw new ResourceNotFoundError()
@@ -32,7 +32,7 @@ export class UpdateProfileUseCase {
 
     const with_same_email = await verifyEmailAndReturnUserId(email)
 
-    if (with_same_email && with_same_email.id != id) {
+    if (with_same_email && with_same_email.id != user_id) {
       throw new UserAlreadyExistsError()
     }
 

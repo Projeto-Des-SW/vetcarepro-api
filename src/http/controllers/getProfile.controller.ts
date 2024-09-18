@@ -7,12 +7,12 @@ export async function profileController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const id = request.user.sub
+  const user_id = request.user.sub
 
   try {
     const getProfileUseCase = getProfileUseCaseFactory()
 
-    const profile = await getProfileUseCase.execute({ id })
+    const profile = await getProfileUseCase.execute({ user_id })
 
     return reply.status(200).send(profile)
   } catch (error) {

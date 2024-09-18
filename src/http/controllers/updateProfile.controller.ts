@@ -16,13 +16,13 @@ export async function updateProfileController(
 
   const { name, email, password } = register_body_schema.parse(request.body)
 
-  const id = request.user.sub
+  const user_id = request.user.sub
 
   try {
     const updateServiceUseCase = updateServiceUseCaseFactory()
 
     await updateServiceUseCase.execute({
-      id,
+      user_id,
       name,
       email,
       password

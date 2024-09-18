@@ -32,9 +32,8 @@ model Employee {
   last_payment_date DateTime?
   status            Boolean   @default(true)
   onboarding        Boolean   @default(false)
-
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @default(now())
 
   clinic    Clinic @relation(fields: [clinic_id], references: [id])
   clinic_id String
@@ -57,12 +56,12 @@ model Clinic {
   user    User   @relation(fields: [user_id], references: [id])
   user_id String
 
-  employees       Employee[]
-  patients        Patient[]
-  services        Service[]
-  schedules       Schedule[]
-  products_stock  ProductStock[]
-  purchases_sales PurchaseSale[]
+  employees Employee[]
+  patients  Patient[]
+  services  Service[]
+  schedules Schedule[]
+  products  Product[]
+  sales     Sale[]
 
   @@map("clinics")
 }
@@ -83,8 +82,8 @@ model Patient {
   clinic    Clinic @relation(fields: [clinic_id], references: [id])
   clinic_id String
 
-  schedules       Schedule[]
-  purchases_sales PurchaseSale[]
+  schedules Schedule[]
+  sales     Sale[]
 
   @@unique([name, clinic_id])
   @@map("patients")
@@ -124,7 +123,7 @@ model Schedule {
   @@map("schedules")
 }
 
-model ProductStock {
+model Product {
   id         String   @id @default(uuid())
   title      String
   amount     Decimal
@@ -132,25 +131,26 @@ model ProductStock {
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 
-  clinic       Clinic?        @relation(fields: [clinic_id], references: [id])
-  clinic_id    String?
-  PurchaseSale PurchaseSale[]
+  clinic    Clinic  @relation(fields: [clinic_id], references: [id])
+  clinic_id String
+  sale      Sale?   @relation(fields: [sale_id], references: [id])
+  sale_id   String?
 
   @@unique([title, clinic_id])
-  @@map("products_stock")
+  @@map("products")
 }
 
-model PurchaseSale {
+model Sale {
   id         String   @id @default(uuid())
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 
-  clinic           Clinic?      @relation(fields: [clinic_id], references: [id])
-  clinic_id        String?
-  patient          Patient      @relation(fields: [patient_id], references: [id])
-  patient_id       String
-  product_stock    ProductStock @relation(fields: [product_stock_id], references: [id])
-  product_stock_id String
+  clinic     Clinic  @relation(fields: [clinic_id], references: [id])
+  clinic_id  String
+  patient    Patient @relation(fields: [patient_id], references: [id])
+  patient_id String
 
-  @@map("purchases_sales")
+  products Product[]
+
+  @@map("sales")
 }
