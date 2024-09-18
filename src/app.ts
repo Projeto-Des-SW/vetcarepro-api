@@ -10,6 +10,7 @@ import { clinicsRoute } from './http/routes/clinics.route'
 import { employeesRoute } from './http/routes/employees.route'
 import { onboardingsRoute } from './http/routes/onboardings.route'
 import { patientsRoute } from './http/routes/patients.route'
+import { productsRoute } from './http/routes/products.route'
 import { profileRoute } from './http/routes/profile.route'
 import { salesRoute } from './http/routes/sales.route'
 import { schedulesRoute } from './http/routes/schedules.route'
@@ -27,6 +28,7 @@ app.register(clinicsRoute)
 app.register(employeesRoute)
 app.register(onboardingsRoute)
 app.register(patientsRoute)
+app.register(productsRoute)
 app.register(profileRoute)
 app.register(salesRoute)
 app.register(schedulesRoute)
