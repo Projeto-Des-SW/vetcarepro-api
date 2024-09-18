@@ -1,4 +1,4 @@
-import { Employee } from '@prisma/client'
+import { Employee, Prisma } from '@prisma/client'
 
 import { verifyEmailAndReturnUserId } from '@/util/verifyEmail'
 import { EmployeesRepository } from '@/repositories/interfaces/employees.repository'
@@ -12,6 +12,9 @@ interface IRequest {
   employee_id: string
   name: string
   email: string
+  salary: string
+  position: string
+  last_payment_date: Date
 }
 
 interface IResponse {
@@ -21,7 +24,7 @@ interface IResponse {
 export class UpdateEmployeeUseCase {
   constructor(private employeesRepository: EmployeesRepository, private clinicsRepository: ClinicsRepository) {}
 
-  async execute({ user_id, clinic_id, employee_id, name, email }: IRequest): Promise<IResponse> {
+  async execute({ user_id, clinic_id, employee_id, name, email, salary, position, last_payment_date }: IRequest): Promise<IResponse> {
     const clinic = await this.clinicsRepository.findByClinicIdAndUserId(clinic_id, user_id)
 
     if (!clinic) {
@@ -42,6 +45,9 @@ export class UpdateEmployeeUseCase {
 
     employee.name = name
     employee.email = email
+    employee.salary = new Prisma.Decimal(salary)
+    employee.position = position
+    employee.last_payment_date = last_payment_date
     await this.employeesRepository.save(employee)
 
     return { employee }

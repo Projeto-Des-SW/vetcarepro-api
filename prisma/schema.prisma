@@ -12,6 +12,8 @@ model User {
   name          String
   email         String   @unique
   password_hash String
+  status        Boolean  @default(true)
+  onboarding    Boolean  @default(false)
   created_at    DateTime @default(now())
   updated_at    DateTime @default(now())
 
@@ -21,13 +23,18 @@ model User {
 }
 
 model Employee {
-  id            String   @id @default(uuid())
-  name          String
-  email         String   @unique
-  password_hash String
-  status        Boolean  @default(true)
-  created_at    DateTime @default(now())
-  updated_at    DateTime @default(now())
+  id                String    @id @default(uuid())
+  name              String
+  email             String    @unique
+  password_hash     String
+  position          String?
+  salary            Decimal?
+  last_payment_date DateTime?
+  status            Boolean   @default(true)
+  onboarding        Boolean   @default(false)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
 
   clinic    Clinic @relation(fields: [clinic_id], references: [id])
   clinic_id String
@@ -87,7 +94,7 @@ model Service {
   id         String   @id @default(uuid())
   title      String
   type       String
-  amount     String
+  amount     Decimal
   status     Boolean  @default(true)
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
@@ -120,8 +127,8 @@ model Schedule {
 model ProductStock {
   id         String   @id @default(uuid())
   title      String
-  amount     String
-  quantity   String
+  amount     Decimal
+  quantity   Int
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 

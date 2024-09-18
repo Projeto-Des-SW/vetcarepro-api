@@ -1,4 +1,4 @@
-import { Service } from '@prisma/client'
+import { Prisma, Service } from '@prisma/client'
 
 import { ServicesRepository } from '@/repositories/interfaces/services.repository'
 import { ClinicsRepository } from '@/repositories/interfaces/clinics.repository'
@@ -35,7 +35,7 @@ export class UpdateServiceUseCase {
 
     service.title = title
     service.type = type
-    service.amount = amount
+    service.amount = new Prisma.Decimal(amount)
     await this.servicesRepository.save(service)
 
     return { service }

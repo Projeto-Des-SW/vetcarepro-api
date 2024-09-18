@@ -15,12 +15,15 @@ export async function registerEmployeeController(
   const register_body_schema = z.object({
     name: z.string(),
     email: z.string().email(),
-    password: z.string().min(6)
+    password: z.string().min(6),
+    salary: z.string(),
+    position: z.string(),
+    last_payment_date: z.date()
   })
 
   const { clinic_id } = register_params_schema.parse(request.params)
 
-  const { name, email, password } = register_body_schema.parse(request.body)
+  const { name, email, password, salary, position, last_payment_date } = register_body_schema.parse(request.body)
 
   const user_id = request.user.sub
 
@@ -32,7 +35,10 @@ export async function registerEmployeeController(
       clinic_id,
       name,
       email,
-      password
+      password,
+      salary, 
+      position, 
+      last_payment_date
     })
 
     return reply.status(201).send()

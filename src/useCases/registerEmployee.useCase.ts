@@ -13,6 +13,9 @@ interface IRequest {
   name: string
   email: string
   password: string
+  salary: string
+  position: string
+  last_payment_date: Date
 }
 
 interface IResponse {
@@ -22,7 +25,7 @@ interface IResponse {
 export class RegisterEmployeeUseCase {
   constructor(private employeesRepository: EmployeesRepository, private clinicsRepository: ClinicsRepository, private hashProvider: HashProvider) {}
 
-  async execute({ user_id, clinic_id, name, email, password }: IRequest): Promise<IResponse> {
+  async execute({ user_id, clinic_id, name, email, password, salary, position, last_payment_date }: IRequest): Promise<IResponse> {
     const clinic = await this.clinicsRepository.findByClinicIdAndUserId(clinic_id, user_id)
 
     if (!clinic) {
@@ -41,7 +44,10 @@ export class RegisterEmployeeUseCase {
       clinic_id,
       name,
       email,
-      password_hash
+      password_hash,
+      salary, 
+      position, 
+      last_payment_date
     })
 
     return { employee }
