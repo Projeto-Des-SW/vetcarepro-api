@@ -11,6 +11,7 @@ import { employeesRoute } from './http/routes/employees.route'
 import { onboardingsRoute } from './http/routes/onboardings.route'
 import { patientsRoute } from './http/routes/patients.route'
 import { profileRoute } from './http/routes/profile.route'
+import { salesRoute } from './http/routes/sales.route'
 import { schedulesRoute } from './http/routes/schedules.route'
 import { servicesRoute } from './http/routes/services.route'
 import { usersRoute } from './http/routes/users.route'
@@ -27,6 +28,7 @@ app.register(employeesRoute)
 app.register(onboardingsRoute)
 app.register(patientsRoute)
 app.register(profileRoute)
+app.register(salesRoute)
 app.register(schedulesRoute)
 app.register(servicesRoute)
 app.register(usersRoute)
