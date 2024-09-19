@@ -1,6 +1,6 @@
 import { Prisma, Clinic } from '@prisma/client'
 
-import { prisma } from '@/lib/prisma'
+import { prisma } from '@/prisma'
 import { ClinicsRepository } from '../interfaces/clinics.repository'
 
 export class PrismaClinicsRepository implements ClinicsRepository {

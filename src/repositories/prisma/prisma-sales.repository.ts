@@ -1,6 +1,6 @@
 import { Prisma, Sale } from '@prisma/client'
 
-import { prisma } from '@/lib/prisma'
+import { prisma } from '@/prisma'
 import { SalesRepository } from '../interfaces/sales.repository'
 
 export class PrismaSalesRepository implements SalesRepository {
