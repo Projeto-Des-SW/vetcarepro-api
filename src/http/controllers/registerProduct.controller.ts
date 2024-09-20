@@ -16,7 +16,6 @@ export async function registerProductController(
 
   const body_schema = z.object({
     title: z.string(),
-    type: z.string(),
     amount: z.string(),
     quantity: z.number()
   })
