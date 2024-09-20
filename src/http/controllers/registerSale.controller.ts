@@ -14,7 +14,6 @@ export async function registerSaleController(
 
   const body_schema = z.object({
     patient_id: z.string().uuid(),
-    service_id: z.string().uuid(),
     products: z.string().array()
   })
 
