@@ -1,4 +1,4 @@
-import { Prisma, Product } from '@prisma/client'
+import { Product } from '@prisma/client'
 
 import { ProductsRepository } from '@/repositories/interfaces/products.repository'
 import { ClinicsRepository } from '@/repositories/interfaces/clinics.repository'
@@ -37,7 +37,7 @@ export class RegisterProductUseCase {
       clinic_id,
       title,
       quantity,
-      amount: new Prisma.Decimal(amount)
+      amount
     })
 
     return { product }
