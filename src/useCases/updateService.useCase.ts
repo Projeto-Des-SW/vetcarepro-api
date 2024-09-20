@@ -35,7 +35,7 @@ export class UpdateServiceUseCase {
 
     service.title = title
     service.type = type
-    service.amount = new Prisma.Decimal(amount)
+    service.amount = amount
     await this.servicesRepository.save(service)
 
     return { service }

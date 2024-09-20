@@ -49,8 +49,9 @@ export class RegisterSaleUseCase {
     }
 
     let total_amount = 0
-    const productsIds: { id: string }[] = []
-    products.forEach(async (product_id) => {
+    let quantities_products = [] as { id: string, quantity: number }[]
+
+    const productsIds = await Promise.all(products.map(async (product_id) => {
       const product = await this.productsRepository.findByProductIdAndClinicId(product_id, clinic_id)
 
       if (!product) {
@@ -58,8 +59,26 @@ export class RegisterSaleUseCase {
       }
 
       total_amount += Number(product.amount)
-      productsIds.push({ id: product.id })
-    })
+
+      const qp_exist = quantities_products.find((qp) => qp.id === product.id)
+
+      if (qp_exist) {
+        qp_exist.quantity += 1
+      } else {
+        quantities_products.push({ id: product.id, quantity: 1 })
+      }
+      
+      return { id: product.id }
+    }))
+
+    await Promise.all(quantities_products.map(async (qp) => {
+      const product = await this.productsRepository.findById(qp.id)
+
+      if (product) {
+        product.quantity -= qp.quantity
+        await this.productsRepository.save(product)
+      }
+    }))
 
     const sale = await this.salesRepository.create({
       clinic_id,

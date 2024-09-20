@@ -3,6 +3,7 @@ import { Employee } from '@prisma/client'
 import { EmployeesRepository } from '@/repositories/interfaces/employees.repository'
 import { ClinicsRepository } from '@/repositories/interfaces/clinics.repository'
 import { ResourceNotFoundError } from '@/errors/resourceNotFound.error'
+import { WithoutPasswordEmployee } from '@/util/omitField'
 
 interface IRequest {
   user_id: string
@@ -10,7 +11,7 @@ interface IRequest {
 }
 
 interface IResponse {
-  employees: Employee[]
+  employees: WithoutPasswordEmployee[]
 }
 
 export class ListEmployeesUseCase {

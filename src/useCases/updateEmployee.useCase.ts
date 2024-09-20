@@ -45,7 +45,7 @@ export class UpdateEmployeeUseCase {
 
     employee.name = name
     employee.email = email
-    employee.salary = new Prisma.Decimal(salary)
+    employee.salary = salary
     employee.position = position
     employee.last_payment_date = last_payment_date
     await this.employeesRepository.save(employee)

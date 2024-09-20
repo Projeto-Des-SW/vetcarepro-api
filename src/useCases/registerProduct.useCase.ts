@@ -36,8 +36,8 @@ export class RegisterProductUseCase {
     const product = await this.productsRepository.create({ 
       clinic_id,
       title,
-      quantity,
-      amount
+      amount,
+      quantity
     })
 
     return { product }

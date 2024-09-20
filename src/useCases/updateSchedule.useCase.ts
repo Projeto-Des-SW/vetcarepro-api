@@ -1,4 +1,4 @@
-import { Schedule } from '@prisma/client'
+import { Schedule, $Enums } from '@prisma/client'
 
 import { SchedulesRepository } from '@/repositories/interfaces/schedules.repository'
 import { ClinicsRepository } from '@/repositories/interfaces/clinics.repository'
@@ -9,7 +9,8 @@ interface IRequest {
   user_id: string
   clinic_id: string
   schedule_id: string
-  date: Date
+  date?: Date
+  status_schedule?: $Enums.StatusSchedule
 }
 
 interface IResponse {
@@ -19,7 +20,7 @@ interface IResponse {
 export class UpdateScheduleUseCase {
   constructor(private schedulesRepository: SchedulesRepository, private clinicsRepository: ClinicsRepository, private employeesRepository: EmployeesRepository) {}
 
-  async execute({ user_id, clinic_id, schedule_id, date }: IRequest): Promise<IResponse> {
+  async execute({ user_id, clinic_id, schedule_id, date, status_schedule }: IRequest): Promise<IResponse> {
     let clinic
 
     clinic = await this.clinicsRepository.findByClinicIdAndUserId(clinic_id, user_id)
@@ -40,7 +41,9 @@ export class UpdateScheduleUseCase {
       throw new ResourceNotFoundError()
     }
 
-    schedule.date = date
+    if (date) schedule.date = date
+    if (status_schedule) schedule.status_schedule = status_schedule
+
     await this.schedulesRepository.save(schedule)
 
     return { schedule }

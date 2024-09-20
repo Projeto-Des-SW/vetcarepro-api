@@ -38,6 +38,15 @@ export class PrismaEmployeesRepository implements EmployeesRepository {
       where: {
         id: employee_id,
         clinic_id
+      }
+    })
+  }
+
+  async findByEmployeeIdAndClinicIdWithoutPassword(employee_id: string, clinic_id: string) {
+    return await prisma.employee.findUnique({
+      where: {
+        id: employee_id,
+        clinic_id
       },
       select: {
         id: true,

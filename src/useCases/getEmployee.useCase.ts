@@ -3,6 +3,7 @@ import { Employee } from '@prisma/client'
 import { EmployeesRepository } from '@/repositories/interfaces/employees.repository'
 import { ClinicsRepository } from '@/repositories/interfaces/clinics.repository'
 import { ResourceNotFoundError } from '@/errors/resourceNotFound.error'
+import { WithoutPasswordEmployee } from '@/util/omitField'
 
 interface IRequest {
   user_id: string
@@ -11,7 +12,7 @@ interface IRequest {
 }
 
 interface IResponse {
-  employee: Employee
+  employee: WithoutPasswordEmployee
 }
 
 export class GetEmployeeUseCase {
@@ -24,7 +25,7 @@ export class GetEmployeeUseCase {
       throw new ResourceNotFoundError()
     }
 
-    const employee = await this.employeesRepository.findByEmployeeIdAndClinicId(employee_id, clinic_id)
+    const employee = await this.employeesRepository.findByEmployeeIdAndClinicIdWithoutPassword(employee_id, clinic_id)
 
     if (!employee) {
       throw new ResourceNotFoundError()

@@ -34,8 +34,8 @@ export class UpdateProductUseCase {
     }
 
     product.title = title
+    product.amount = amount
     product.quantity = quantity
-    product.amount = new Prisma.Decimal(amount)
     await this.productsRepository.save(product)
 
     return { product }

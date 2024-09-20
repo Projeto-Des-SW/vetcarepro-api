@@ -141,11 +141,12 @@ model Product {
 
   clinic    Clinic  @relation(fields: [clinic_id], references: [id])
   clinic_id String
-  sale      Sale?   @relation(fields: [sale_id], references: [id])
-  sale_id   String?
+
+  sales Sale[] @relation("SalesProducts")
 
   @@unique([title, clinic_id])
   @@map("products")
+  
 }
 
 model Sale {
@@ -159,7 +160,7 @@ model Sale {
   patient    Patient @relation(fields: [patient_id], references: [id])
   patient_id String
 
-  products Product[]
+  products Product[] @relation("SalesProducts")
 
   @@map("sales")
 }
