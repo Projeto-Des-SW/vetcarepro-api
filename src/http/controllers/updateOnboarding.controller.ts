@@ -2,18 +2,17 @@ import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
 
 import { updateOnboardingUseCaseFactory } from '@/useCases/factories/updateOnboardingUseCase.factory'
-import { UserAlreadyExistsError } from '@/errors/userAlreadyExists.error'
+import { ResourceNotFoundError } from '@/errors/resourceNotFound.error'
 
 export async function updateOnboardingController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const register_body_schema = z.object({
-    id: z.string(),
+  const body_schema = z.object({
     onboarding: z.boolean()
   })
 
-  const { onboarding } = register_body_schema.parse(request.body)
+  const { onboarding } = body_schema.parse(request.body)
 
   const user_id = request.user.sub
 
@@ -27,8 +26,8 @@ export async function updateOnboardingController(
 
     return reply.status(200).send()
   } catch (error) {
-    if (error instanceof UserAlreadyExistsError) {
-      return reply.status(409).send({ message: error.message })
+    if (error instanceof ResourceNotFoundError) {
+      return reply.status(404).send({ message: error.message })
     }
 
     throw error

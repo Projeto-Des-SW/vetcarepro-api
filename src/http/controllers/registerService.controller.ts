@@ -2,6 +2,7 @@ import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
 
 import { registerServiceUseCaseFactory } from '@/useCases/factories/registerServiceUseCase.factory'
+import { ResourceNotFoundError } from '@/errors/resourceNotFound.error'
 import { ServiceAlreadyExistsError } from '@/errors/serviceAlreadyExists.error'
 
 export async function registerServiceController(
@@ -9,19 +10,19 @@ export async function registerServiceController(
   reply: FastifyReply
 ) {
 
-  const register_params_schema = z.object({
+  const params_schema = z.object({
     clinic_id: z.string().uuid()
   })
 
-  const register_body_schema = z.object({
+  const body_schema = z.object({
     title: z.string(),
     type: z.string(),
     amount: z.string()
   })
 
-  const { clinic_id } = register_params_schema.parse(request.params)
+  const { clinic_id } = params_schema.parse(request.params)
   
-  const { title, type, amount } = register_body_schema.parse(request.body)
+  const { title, type, amount } = body_schema.parse(request.body)
 
   const user_id = request.user.sub
 
@@ -38,6 +39,10 @@ export async function registerServiceController(
 
     return reply.status(201).send()
   } catch (error) {
+    if (error instanceof ResourceNotFoundError) {
+      return reply.status(404).send({ message: error.message })
+    }
+    
     if (error instanceof ServiceAlreadyExistsError) {
       return reply.status(409).send({ message: error.message })
     }

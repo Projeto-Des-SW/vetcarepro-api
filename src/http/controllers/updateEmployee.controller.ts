@@ -2,18 +2,19 @@ import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
 
 import { updateEmployeeUseCaseFactory } from '@/useCases/factories/updateEmployeeUseCase.factory'
+import { ResourceNotFoundError } from '@/errors/resourceNotFound.error'
 import { UserAlreadyExistsError } from '@/errors/userAlreadyExists.error'
 
 export async function updateEmployeeController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const register_params_schema = z.object({
+  const params_schema = z.object({
     clinic_id: z.string().uuid(),
     employee_id: z.string().uuid()
   })
 
-  const register_body_schema = z.object({
+  const body_schema = z.object({
     name: z.string(),
     email: z.string().email(),
     salary: z.string(),
@@ -21,9 +22,9 @@ export async function updateEmployeeController(
     last_payment_date: z.date()
   })
 
-  const { clinic_id, employee_id } = register_params_schema.parse(request.params)
+  const { clinic_id, employee_id } = params_schema.parse(request.params)
 
-  const { name, email, salary, position, last_payment_date } = register_body_schema.parse(request.body)
+  const { name, email, salary, position, last_payment_date } = body_schema.parse(request.body)
 
   const user_id = request.user.sub
 
@@ -41,8 +42,12 @@ export async function updateEmployeeController(
       last_payment_date
     })
 
-    return reply.status(201).send()
+    return reply.status(200).send()
   } catch (error) {
+    if (error instanceof ResourceNotFoundError) {
+      return reply.status(404).send({ message: error.message })
+    }
+
     if (error instanceof UserAlreadyExistsError) {
       return reply.status(409).send({ message: error.message })
     }

@@ -8,13 +8,13 @@ export async function registerUserController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const register_body_schema = z.object({
+  const body_schema = z.object({
     name: z.string(),
     email: z.string().email(),
     password: z.string().min(6)
   })
 
-  const { name, email, password } = register_body_schema.parse(request.body)
+  const { name, email, password } = body_schema.parse(request.body)
 
   try {
     const registerUserUseCase = registerUserUseCaseFactory()

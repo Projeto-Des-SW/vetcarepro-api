@@ -48,7 +48,7 @@ export class RegisterSaleUseCase {
       throw new ResourceNotFoundError()
     }
 
-    let amount = 0
+    let total_amount = 0
     const productsIds: { id: string }[] = []
     products.forEach(async (product_id) => {
       const product = await this.productsRepository.findByProductIdAndClinicId(product_id, clinic_id)
@@ -57,7 +57,7 @@ export class RegisterSaleUseCase {
         throw new ResourceNotFoundError()
       }
 
-      amount += Number(product.amount)
+      total_amount += Number(product.amount)
       productsIds.push({ id: product.id })
     })
 
@@ -67,7 +67,7 @@ export class RegisterSaleUseCase {
       products: {
         connect: productsIds
       },
-      amount
+      amount: String(total_amount)
     })
 
     return { sale }

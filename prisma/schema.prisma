@@ -7,6 +7,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum StatusSchedule {
+  SCHEDULED
+  EXPIRES
+  FINISHED
+}
+
 model User {
   id            String   @id @default(uuid())
   name          String
@@ -27,8 +33,8 @@ model Employee {
   name              String
   email             String    @unique
   password_hash     String
-  position          String?
-  salary            Decimal?
+  position          String
+  salary            String
   last_payment_date DateTime?
   status            Boolean   @default(true)
   onboarding        Boolean   @default(false)
@@ -93,7 +99,7 @@ model Service {
   id         String   @id @default(uuid())
   title      String
   type       String
-  amount     Decimal
+  amount     String
   status     Boolean  @default(true)
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
@@ -108,10 +114,11 @@ model Service {
 }
 
 model Schedule {
-  id         String   @id @default(uuid())
-  date       DateTime
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  id              String         @id @default(uuid())
+  date            DateTime
+  status_schedule StatusSchedule @default(SCHEDULED)
+  created_at      DateTime       @default(now())
+  updated_at      DateTime       @default(now())
 
   clinic     Clinic? @relation(fields: [clinic_id], references: [id])
   clinic_id  String?
@@ -126,7 +133,7 @@ model Schedule {
 model Product {
   id         String   @id @default(uuid())
   title      String
-  amount     Decimal
+  amount     String
   quantity   Int
   status     Boolean  @default(true)
   created_at DateTime @default(now())
@@ -143,7 +150,7 @@ model Product {
 
 model Sale {
   id         String   @id @default(uuid())
-  amount     Decimal
+  amount     String
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 

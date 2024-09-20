@@ -38,6 +38,19 @@ export class PrismaEmployeesRepository implements EmployeesRepository {
       where: {
         id: employee_id,
         clinic_id
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        position: true,
+        salary: true,
+        last_payment_date: true,
+        status: true,
+        onboarding: true,
+        created_at: true,
+        updated_at: true,
+        clinic_id: true
       }
     })
   }
@@ -47,6 +60,19 @@ export class PrismaEmployeesRepository implements EmployeesRepository {
       where: {
         clinic_id,
         status: true
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        position: true,
+        salary: true,
+        last_payment_date: true,
+        status: true,
+        onboarding: true,
+        created_at: true,
+        updated_at: true,
+        clinic_id: true
       },
       orderBy: [
         {

@@ -8,7 +8,7 @@ export async function registerClinicController(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const register_body_schema = z.object({
+  const body_schema = z.object({
     cnpj: z.string(),
     title: z.string(),
     description: z.string(),
@@ -24,7 +24,7 @@ export async function registerClinicController(
     email,
     phone,
     address
-  } = register_body_schema.parse(request.body)
+  } = body_schema.parse(request.body)
 
   const user_id = request.user.sub
 

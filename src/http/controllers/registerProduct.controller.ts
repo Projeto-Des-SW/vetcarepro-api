@@ -2,6 +2,7 @@ import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
 
 import { registerProductUseCaseFactory } from '@/useCases/factories/registerProductUseCase.factory'
+import { ResourceNotFoundError } from '@/errors/resourceNotFound.error'
 import { ProductAlreadyExistsError } from '@/errors/productAlreadyExists.error'
 
 export async function registerProductController(
@@ -9,20 +10,20 @@ export async function registerProductController(
   reply: FastifyReply
 ) {
 
-  const register_params_schema = z.object({
+  const params_schema = z.object({
     clinic_id: z.string().uuid()
   })
 
-  const register_body_schema = z.object({
+  const body_schema = z.object({
     title: z.string(),
     type: z.string(),
     amount: z.string(),
     quantity: z.number()
   })
 
-  const { clinic_id } = register_params_schema.parse(request.params)
+  const { clinic_id } = params_schema.parse(request.params)
   
-  const { title, amount, quantity } = register_body_schema.parse(request.body)
+  const { title, amount, quantity } = body_schema.parse(request.body)
 
   const user_id = request.user.sub
 
@@ -39,6 +40,10 @@ export async function registerProductController(
 
     return reply.status(201).send()
   } catch (error) {
+    if (error instanceof ResourceNotFoundError) {
+      return reply.status(404).send({ message: error.message })
+    }
+    
     if (error instanceof ProductAlreadyExistsError) {
       return reply.status(409).send({ message: error.message })
     }
