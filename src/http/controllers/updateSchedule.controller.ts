@@ -14,7 +14,7 @@ export async function updateScheduleController(
   })
 
   const body_schema = z.object({
-    date: z.date().optional(),
+    date: z.string().optional(),
     status_schedule: z.enum(['EXPIRES', 'FINISHED']).optional()
   })
   
@@ -31,8 +31,8 @@ export async function updateScheduleController(
       user_id, 
       clinic_id,    
       schedule_id,
-      date,
-      status_schedule
+      date: new Date(date!!),
+      status_schedule: status_schedule!!
     })
 
     return reply.status(200).send()

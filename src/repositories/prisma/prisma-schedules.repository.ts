@@ -17,7 +17,20 @@ export class PrismaSchedulesRepository implements SchedulesRepository {
       where: {
         id: data.id
       },
-      data
+      data: {
+        status_schedule: data.status_schedule,
+        date: new Date(data.date),
+        updated_at: new Date(),
+        clinic: {
+          connect: { id: data.clinic_id }
+        },
+        patient: {
+          connect: { id: data.patient_id },
+        },
+        service: {
+          connect: { id: data.service_id }
+        },
+      }
     })
   }
 

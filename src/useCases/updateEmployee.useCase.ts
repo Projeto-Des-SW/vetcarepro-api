@@ -1,4 +1,4 @@
-import { Employee, Prisma } from '@prisma/client'
+import { Employee } from '@prisma/client'
 
 import { verifyEmailAndReturnUserId } from '@/util/verifyEmail'
 import { EmployeesRepository } from '@/repositories/interfaces/employees.repository'
@@ -10,11 +10,11 @@ interface IRequest {
   user_id: string
   clinic_id: string
   employee_id: string
-  name: string
-  email: string
-  salary: string
-  position: string
-  last_payment_date: Date
+  name?: string
+  email?: string
+  salary?: string
+  position?: string
+  last_payment_date?: Date
 }
 
 interface IResponse {
@@ -37,17 +37,21 @@ export class UpdateEmployeeUseCase {
       throw new ResourceNotFoundError()
     }
 
-    const with_same_email = await verifyEmailAndReturnUserId(email)
+    if (email) {
+      const with_same_email = await verifyEmailAndReturnUserId(email)
 
-    if (with_same_email && with_same_email.id != employee_id) {
-      throw new UserAlreadyExistsError()
+      if (with_same_email && with_same_email.id != employee_id) {
+        throw new UserAlreadyExistsError()
+      }
+
+      employee.email = email
     }
 
-    employee.name = name
-    employee.email = email
-    employee.salary = salary
-    employee.position = position
-    employee.last_payment_date = last_payment_date
+    if (name) employee.name = name
+    if (salary) employee.salary = salary
+    if (position) employee.position = position
+    if (last_payment_date) employee.last_payment_date = last_payment_date
+
     await this.employeesRepository.save(employee)
 
     return { employee }

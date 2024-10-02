@@ -12,7 +12,7 @@ export async function clinicsRoute(app: FastifyInstance) {
   app.addHook('onRequest', jwtMiddleware)
   
   app.post('/clinics', { onRequest: [userMiddleware] }, registerClinicController)
-  app.get('/clinics', { onRequest: [userMiddleware] }, listClinicsController)
+  app.get('/clinics', listClinicsController)
   app.get('/clinics/:clinic_id', getClinicController)
   app.put('/clinics/:clinic_id', { onRequest: [userMiddleware] }, updateClinicController)
   app.delete('/clinics/:clinic_id', { onRequest: [userMiddleware] }, deleteClinicController)

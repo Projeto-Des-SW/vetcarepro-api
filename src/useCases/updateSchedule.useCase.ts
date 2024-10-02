@@ -10,7 +10,7 @@ interface IRequest {
   clinic_id: string
   schedule_id: string
   date?: Date
-  status_schedule?: $Enums.StatusSchedule
+  status_schedule: $Enums.StatusSchedule
 }
 
 interface IResponse {

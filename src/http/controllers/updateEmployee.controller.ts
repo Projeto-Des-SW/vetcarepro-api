@@ -15,11 +15,11 @@ export async function updateEmployeeController(
   })
 
   const body_schema = z.object({
-    name: z.string(),
-    email: z.string().email(),
-    salary: z.string(),
-    position: z.string(),
-    last_payment_date: z.date()
+    name: z.string().optional(),
+    email: z.string().email().optional(),
+    salary: z.string().optional(),
+    position: z.string().optional(),
+    last_payment_date: z.date().optional()
   })
 
   const { clinic_id, employee_id } = params_schema.parse(request.params)

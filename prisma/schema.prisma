@@ -120,8 +120,8 @@ model Schedule {
   created_at      DateTime       @default(now())
   updated_at      DateTime       @default(now())
 
-  clinic     Clinic? @relation(fields: [clinic_id], references: [id])
-  clinic_id  String?
+  clinic     Clinic  @relation(fields: [clinic_id], references: [id])
+  clinic_id  String
   patient    Patient @relation(fields: [patient_id], references: [id])
   patient_id String
   service    Service @relation(fields: [service_id], references: [id])
@@ -139,14 +139,13 @@ model Product {
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 
-  clinic    Clinic  @relation(fields: [clinic_id], references: [id])
+  clinic    Clinic @relation(fields: [clinic_id], references: [id])
   clinic_id String
 
   sales Sale[] @relation("SalesProducts")
 
   @@unique([title, clinic_id])
   @@map("products")
-  
 }
 
 model Sale {
