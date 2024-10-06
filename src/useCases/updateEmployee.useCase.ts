@@ -1,4 +1,4 @@
-import { Employee } from '@prisma/client'
+import { Employee, $Enums } from '@prisma/client'
 
 import { verifyEmailAndReturnUserId } from '@/util/verifyEmail'
 import { EmployeesRepository } from '@/repositories/interfaces/employees.repository'
@@ -15,6 +15,7 @@ interface IRequest {
   salary?: string
   position?: string
   last_payment_date?: Date
+  role?: $Enums.Roles
 }
 
 interface IResponse {
@@ -24,7 +25,7 @@ interface IResponse {
 export class UpdateEmployeeUseCase {
   constructor(private employeesRepository: EmployeesRepository, private clinicsRepository: ClinicsRepository) {}
 
-  async execute({ user_id, clinic_id, employee_id, name, email, salary, position, last_payment_date }: IRequest): Promise<IResponse> {
+  async execute({ user_id, clinic_id, employee_id, name, email, salary, position, last_payment_date, role }: IRequest): Promise<IResponse> {
     const clinic = await this.clinicsRepository.findByClinicIdAndUserId(clinic_id, user_id)
 
     if (!clinic) {
@@ -51,6 +52,7 @@ export class UpdateEmployeeUseCase {
     if (salary) employee.salary = salary
     if (position) employee.position = position
     if (last_payment_date) employee.last_payment_date = last_payment_date
+    if (role) employee.role = role
 
     await this.employeesRepository.save(employee)
 

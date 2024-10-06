@@ -19,12 +19,13 @@ export async function updateEmployeeController(
     email: z.string().email().optional(),
     salary: z.string().optional(),
     position: z.string().optional(),
-    last_payment_date: z.date().optional()
+    last_payment_date: z.date().optional(),
+    role: z.enum(['MANAGER', 'VETERINARY', 'SECRETARY']).optional()
   })
 
   const { clinic_id, employee_id } = params_schema.parse(request.params)
 
-  const { name, email, salary, position, last_payment_date } = body_schema.parse(request.body)
+  const { name, email, salary, position, last_payment_date ,role } = body_schema.parse(request.body)
 
   const user_id = request.user.sub
 
@@ -39,7 +40,8 @@ export async function updateEmployeeController(
       email,
       salary,
       position, 
-      last_payment_date
+      last_payment_date,
+      role
     })
 
     return reply.status(200).send()

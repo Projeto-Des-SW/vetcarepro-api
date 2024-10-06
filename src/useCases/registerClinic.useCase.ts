@@ -1,4 +1,4 @@
-import { Clinic } from '@prisma/client'
+import { Clinic, $Enums } from '@prisma/client'
 
 import { ClinicsRepository } from '@/repositories/interfaces/clinics.repository'
 import { ClinicAlreadyExistsError } from '@/errors/clinicAlreadyExists.error' 
@@ -11,6 +11,7 @@ interface IRequest {
   email: string
   phone: string
   address: string
+  tier: $Enums.Tiers
 }
 
 interface IResponse {
@@ -20,7 +21,7 @@ interface IResponse {
 export class RegisterClinicUseCase {
   constructor(private clinicsRepository: ClinicsRepository) {}
 
-  async execute({ user_id, cnpj, title, description, email, phone, address }: IRequest): Promise<IResponse> {
+  async execute({ user_id, cnpj, title, description, email, phone, address, tier }: IRequest): Promise<IResponse> {
     const clinic_with_same_title = await this.clinicsRepository.findByTitle(title)
 
     if (clinic_with_same_title) {
@@ -40,7 +41,8 @@ export class RegisterClinicUseCase {
       description, 
       email, 
       phone, 
-      address
+      address,
+      tier
     })
 
     return { clinic }

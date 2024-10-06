@@ -18,12 +18,13 @@ export async function registerEmployeeController(
     email: z.string().email(),
     password: z.string().min(6),
     position: z.string(),
-    salary: z.string()
+    salary: z.string(),
+    role: z.enum(['MANAGER', 'VETERINARY', 'SECRETARY'])
   })
 
   const { clinic_id } = params_schema.parse(request.params)
 
-  const { name, email, password, position, salary } = body_schema.parse(request.body)
+  const { name, email, password, position, salary, role } = body_schema.parse(request.body)
 
   const user_id = request.user.sub
 
@@ -37,7 +38,8 @@ export async function registerEmployeeController(
       email,
       password,
       salary, 
-      position
+      position,
+      role
     })
 
     return reply.status(201).send()

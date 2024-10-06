@@ -1,4 +1,4 @@
-import { Employee } from '@prisma/client'
+import { Employee, $Enums } from '@prisma/client'
 
 import { verifyEmail } from '@/util/verifyEmail'
 import { HashProvider } from '@/providers/hash/hash.provider'
@@ -15,6 +15,7 @@ interface IRequest {
   password: string
   salary: string
   position: string
+  role: $Enums.Roles
 }
 
 interface IResponse {
@@ -24,7 +25,7 @@ interface IResponse {
 export class RegisterEmployeeUseCase {
   constructor(private employeesRepository: EmployeesRepository, private clinicsRepository: ClinicsRepository, private hashProvider: HashProvider) {}
 
-  async execute({ user_id, clinic_id, name, email, password, salary, position }: IRequest): Promise<IResponse> {
+  async execute({ user_id, clinic_id, name, email, password, salary, position, role }: IRequest): Promise<IResponse> {
     const clinic = await this.clinicsRepository.findByClinicIdAndUserId(clinic_id, user_id)
 
     if (!clinic) {
@@ -45,7 +46,8 @@ export class RegisterEmployeeUseCase {
       email,
       password_hash,
       salary, 
-      position  
+      position,
+      role 
     })
 
     return { employee }

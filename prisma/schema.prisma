@@ -13,6 +13,18 @@ enum StatusSchedule {
   FINISHED
 }
 
+enum Tiers {
+  TIER_ONE
+  TIER_TWO
+  TIER_THREE
+}
+
+enum Roles {
+  MANAGER
+  VETERINARY
+  SECRETARY
+}
+
 model User {
   id            String   @id @default(uuid())
   name          String
@@ -38,6 +50,7 @@ model Employee {
   last_payment_date DateTime?
   status            Boolean   @default(true)
   onboarding        Boolean   @default(false)
+  role              Roles     @default(MANAGER)
   created_at        DateTime  @default(now())
   updated_at        DateTime  @default(now())
 
@@ -56,6 +69,7 @@ model Clinic {
   description String
   address     String
   status      Boolean  @default(true)
+  tier        Tiers    @default(TIER_ONE)
   created_at  DateTime @default(now())
   updated_at  DateTime @default(now())
 

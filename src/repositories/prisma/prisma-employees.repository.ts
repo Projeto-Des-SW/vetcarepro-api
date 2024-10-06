@@ -57,6 +57,7 @@ export class PrismaEmployeesRepository implements EmployeesRepository {
         last_payment_date: true,
         status: true,
         onboarding: true,
+        role: true,
         created_at: true,
         updated_at: true,
         clinic_id: true
@@ -79,6 +80,7 @@ export class PrismaEmployeesRepository implements EmployeesRepository {
         last_payment_date: true,
         status: true,
         onboarding: true,
+        role: true,
         created_at: true,
         updated_at: true,
         clinic_id: true

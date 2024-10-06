@@ -14,7 +14,8 @@ export async function registerClinicController(
     description: z.string(),
     email: z.string().email(),
     phone: z.string(),
-    address: z.string()
+    address: z.string(),
+    tier: z.enum(['TIER_ONE', 'TIER_TWO', 'TIER_THREE'])
   })
 
   const {
@@ -23,7 +24,8 @@ export async function registerClinicController(
     description,
     email,
     phone,
-    address
+    address,
+    tier
   } = body_schema.parse(request.body)
 
   const user_id = request.user.sub
@@ -38,7 +40,8 @@ export async function registerClinicController(
       description,
       email,
       phone,
-      address
+      address,
+      tier
     })
 
     return reply.status(201).send()
