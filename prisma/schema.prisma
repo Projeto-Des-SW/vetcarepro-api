@@ -57,6 +57,8 @@ model Employee {
   clinic    Clinic @relation(fields: [clinic_id], references: [id])
   clinic_id String
 
+  schedules Schedule[]
+
   @@map("employees")
 }
 
@@ -134,12 +136,14 @@ model Schedule {
   created_at      DateTime       @default(now())
   updated_at      DateTime       @default(now())
 
-  clinic     Clinic  @relation(fields: [clinic_id], references: [id])
-  clinic_id  String
-  patient    Patient @relation(fields: [patient_id], references: [id])
-  patient_id String
-  service    Service @relation(fields: [service_id], references: [id])
-  service_id String
+  clinic      Clinic   @relation(fields: [clinic_id], references: [id])
+  clinic_id   String
+  patient     Patient  @relation(fields: [patient_id], references: [id])
+  patient_id  String
+  employee    Employee @relation(fields: [employee_id], references: [id])
+  employee_id String
+  service     Service  @relation(fields: [service_id], references: [id])
+  service_id  String
 
   @@map("schedules")
 }

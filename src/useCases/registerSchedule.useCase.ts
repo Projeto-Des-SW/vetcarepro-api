@@ -12,6 +12,7 @@ interface IRequest {
   clinic_id: string
   patient_id: string
   service_id: string
+  employee_id: string
   date: Date
 }
 
@@ -28,7 +29,7 @@ export class RegisterScheduleUseCase {
     private employeesRepository: EmployeesRepository
   ) {}
 
-  async execute({ user_id, clinic_id, patient_id, service_id, date }: IRequest): Promise<IResponse> {
+  async execute({ user_id, clinic_id, patient_id, service_id, employee_id, date }: IRequest): Promise<IResponse> {
     let clinic
 
     clinic = await this.clinicsRepository.findByClinicIdAndUserId(clinic_id, user_id)
@@ -55,10 +56,17 @@ export class RegisterScheduleUseCase {
       throw new ResourceNotFoundError()
     }
 
+    const employee = await this.employeesRepository.findById(employee_id)
+
+    if (!employee) {
+      throw new ResourceNotFoundError()
+    }
+
     const schedule = await this.schedulesRepository.create({
       clinic_id,
       patient_id,
       service_id,
+      employee_id,
       date
     })
 
