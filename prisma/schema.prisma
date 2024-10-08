@@ -32,6 +32,7 @@ model User {
   password_hash String
   status        Boolean  @default(true)
   onboarding    Boolean  @default(false)
+  tier          Tiers    @default(TIER_ONE)
   created_at    DateTime @default(now())
   updated_at    DateTime @default(now())
 
@@ -63,17 +64,16 @@ model Employee {
 }
 
 model Clinic {
-  id          String   @id @default(uuid())
-  title       String   @unique
-  cnpj        String   @unique
+  id          String  @id @default(uuid())
+  title       String  @unique
+  cnpj        String  @unique
   email       String
   phone       String
   description String
   address     String
-  status      Boolean  @default(true)
-  tier        Tiers    @default(TIER_ONE)
-  created_at  DateTime @default(now())
-  updated_at  DateTime @default(now())
+  status      Boolean @default(true)
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
 
   user    User   @relation(fields: [user_id], references: [id])
   user_id String

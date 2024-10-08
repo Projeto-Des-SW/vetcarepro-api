@@ -12,7 +12,6 @@ interface IRequest {
   email: string
   phone: string
   address: string,
-  tier: $Enums.Tiers
 }
 
 interface IResponse {
@@ -22,7 +21,7 @@ interface IResponse {
 export class UpdateClinicUseCase {
   constructor(private clinicsRepository: ClinicsRepository) {}
 
-  async execute({ user_id, clinic_id, cnpj, title, description, email, phone, address, tier }: IRequest): Promise<IResponse> {
+  async execute({ user_id, clinic_id, cnpj, title, description, email, phone, address }: IRequest): Promise<IResponse> {
     const clinic = await this.clinicsRepository.findByClinicIdAndUserId(clinic_id, user_id)
 
     if (!clinic) {
@@ -35,7 +34,6 @@ export class UpdateClinicUseCase {
     clinic.email = email
     clinic.phone = phone
     clinic.address = address
-    clinic.tier = tier
 
     await this.clinicsRepository.save(clinic)
 

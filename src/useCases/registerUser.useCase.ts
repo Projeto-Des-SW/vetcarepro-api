@@ -1,4 +1,4 @@
-import { User } from '@prisma/client'
+import { User, $Enums } from '@prisma/client'
 
 import { verifyEmail } from '@/util/verifyEmail'
 import { HashProvider } from '@/providers/hash/hash.provider'
@@ -9,6 +9,7 @@ interface IRequest {
   name: string
   email: string
   password: string
+  tier: $Enums.Tiers
 }
 
 interface IResponse {
@@ -18,7 +19,7 @@ interface IResponse {
 export class RegisterUserUseCase {
   constructor(private usersRepository: UsersRepository, private hashProvider: HashProvider) {}
 
-  async execute({ name, email, password }: IRequest): Promise<IResponse> {
+  async execute({ name, email, password, tier }: IRequest): Promise<IResponse> {
     const with_same_email = await verifyEmail(email)
 
     if (with_same_email) {
@@ -30,7 +31,8 @@ export class RegisterUserUseCase {
     const user = await this.usersRepository.create({
       name,
       email,
-      password_hash
+      password_hash,
+      tier
     })
 
     return { user }
