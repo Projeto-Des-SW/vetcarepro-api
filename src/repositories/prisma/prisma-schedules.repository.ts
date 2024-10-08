@@ -96,4 +96,18 @@ export class PrismaSchedulesRepository implements SchedulesRepository {
       }
     })
   }
+
+  async listByClinicIdGetFinished(clinic_id: string) {
+    return await prisma.schedule.findMany({
+      where: {
+        clinic_id,
+        status_schedule: 'FINISHED'
+      },
+      include: {
+        clinic: true,
+        patient: true,
+        service: true
+      }
+    })
+  }
 }

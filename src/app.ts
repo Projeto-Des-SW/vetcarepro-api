@@ -8,6 +8,7 @@ import { env } from './env'
 import { authenticateRoute } from './http/routes/authenticate.route'
 import { clinicsRoute } from './http/routes/clinics.route'
 import { employeesRoute } from './http/routes/employees.route'
+import { financesRoute } from './http/routes/finances.routes'
 import { onboardingsRoute } from './http/routes/onboardings.route'
 import { patientsRoute } from './http/routes/patients.route'
 import { productsRoute } from './http/routes/products.route'
@@ -26,6 +27,7 @@ app.register(cookie)
 app.register(authenticateRoute)
 app.register(clinicsRoute)
 app.register(employeesRoute)
+app.register(financesRoute)
 app.register(onboardingsRoute)
 app.register(patientsRoute)
 app.register(productsRoute)

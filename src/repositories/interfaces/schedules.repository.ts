@@ -8,4 +8,5 @@ export interface SchedulesRepository {
   findByScheduleIdAndClinicId(schedule_id: string, clinic_id: string): Promise<Schedule | null>
   listByClinicId(clinic_id: string): Promise<Schedule[]>
   listByClinicIdAndPatientId(clinic_id: string, patient_id: string): Promise<Schedule[]>
+  listByClinicIdGetFinished(clinic_id: string): Promise<Schedule[]>
 }
