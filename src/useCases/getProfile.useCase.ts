@@ -10,6 +10,7 @@ interface IResponse {
   id: string
   name: string
   email: string
+  role?: string
 }
 
 export class GetProfileUseCase {
@@ -35,7 +36,8 @@ export class GetProfileUseCase {
       return { 
         id: employee.id,
         name: employee.name,
-        email: employee.email
+        email: employee.email,
+        role: employee.role
       }
     }
   }
