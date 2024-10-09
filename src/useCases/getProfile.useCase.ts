@@ -11,6 +11,7 @@ interface IResponse {
   name: string
   email: string
   role?: string
+  tier?: string
 }
 
 export class GetProfileUseCase {
@@ -28,7 +29,8 @@ export class GetProfileUseCase {
       return { 
         id: user.id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        tier: user.tier
       }
     }
 
