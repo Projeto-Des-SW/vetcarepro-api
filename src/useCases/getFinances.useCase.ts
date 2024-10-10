@@ -11,7 +11,9 @@ interface IRequest {
 }
 
 interface IResponse {
-  finances: number
+  totalValueSchedulesPending: number
+  totalValueSchedulesFinished: number
+  totalValueSales: number
 }
 
 export class GetFinancesUseCase {
@@ -40,22 +42,32 @@ export class GetFinancesUseCase {
       throw new ResourceNotFoundError()
     }
 
-    const schedules = await this.schedulesRepository.listByClinicIdGetFinished(clinic_id)
+    const schedulesIsNotFinished = await this.schedulesRepository.listByClinicIdGetIsNotFinished(clinic_id)
+    const schedulesFinished = await this.schedulesRepository.listByClinicIdGetFinished(clinic_id)
     const sales = await this.salesRepository.listByClinicId(clinic_id)
 
-    let finances = 0
+    let totalValueSchedulesPending = 0
+    let totalValueSchedulesFinished = 0
+    let totalValueSales = 0
 
-    await Promise.all(schedules.map(async (schedule) => {
+    await Promise.all(schedulesIsNotFinished.map(async (schedule) => {
       const service = await this.servicesRepository.findById(schedule.service_id)
-      finances += Number(service!.amount)
+      totalValueSchedulesFinished += Number(service!.amount)
+    }))
+
+    await Promise.all(schedulesFinished.map(async (schedule) => {
+      const service = await this.servicesRepository.findById(schedule.service_id)
+      totalValueSchedulesFinished += Number(service!.amount)
     }))
 
     await Promise.all(sales.map(async (sale) => {
-      finances += Number(sale.amount)
+      totalValueSales += Number(sale.amount)
     }))
 
     return { 
-      finances
+      totalValueSchedulesPending,
+      totalValueSchedulesFinished,
+      totalValueSales
     }
   }
 }

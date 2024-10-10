@@ -17,7 +17,7 @@ export async function getFinancesController(
 
   const getFinancesUseCase = getFinancesUseCaseFactory()
 
-  const { finances } = await getFinancesUseCase.execute({ user_id, clinic_id })
+  const { totalValueSchedulesPending, totalValueSchedulesFinished, totalValueSales } = await getFinancesUseCase.execute({ user_id, clinic_id })
 
-  return reply.status(200).send(finances)
+  return reply.status(200).send({ totalValueSchedulesPending, totalValueSchedulesFinished, totalValueSales })
 }

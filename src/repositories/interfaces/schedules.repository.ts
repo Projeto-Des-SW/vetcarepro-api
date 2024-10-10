@@ -9,4 +9,5 @@ export interface SchedulesRepository {
   listByClinicId(clinic_id: string): Promise<Schedule[]>
   listByClinicIdAndPatientId(clinic_id: string, patient_id: string): Promise<Schedule[]>
   listByClinicIdGetFinished(clinic_id: string): Promise<Schedule[]>
+  listByClinicIdGetIsNotFinished(clinic_id: string): Promise<Schedule[]>
 }
