@@ -16,6 +16,7 @@ import { profileRoute } from './http/routes/profile.route'
 import { salesRoute } from './http/routes/sales.route'
 import { schedulesRoute } from './http/routes/schedules.route'
 import { servicesRoute } from './http/routes/services.route'
+import { tiersRoute } from './http/routes/tiers.routes'
 import { usersRoute } from './http/routes/users.route'
 
 export const app = fastify()
@@ -35,6 +36,7 @@ app.register(profileRoute)
 app.register(salesRoute)
 app.register(schedulesRoute)
 app.register(servicesRoute)
+app.register(tiersRoute)
 app.register(usersRoute)
 
 app.setErrorHandler((error, _, reply) => {

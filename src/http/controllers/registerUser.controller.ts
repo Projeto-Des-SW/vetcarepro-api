@@ -11,10 +11,11 @@ export async function registerUserController(
   const body_schema = z.object({
     name: z.string(),
     email: z.string().email(),
-    password: z.string().min(6)
+    password: z.string().min(6),
+    tier: z.enum(['TIER_ONE', 'TIER_TWO', 'TIER_THREE'])
   })
 
-  const { name, email, password } = body_schema.parse(request.body)
+  const { name, email, password, tier } = body_schema.parse(request.body)
 
   try {
     const registerUserUseCase = registerUserUseCaseFactory()
@@ -22,7 +23,8 @@ export async function registerUserController(
     await registerUserUseCase.execute({
       name,
       email,
-      password
+      password,
+      tier
     })
 
     return reply.status(201).send()

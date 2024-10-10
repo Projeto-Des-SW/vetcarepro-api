@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { z } from 'zod'
 
-import { updateServiceUseCaseFactory } from '@/useCases/factories/updateProfileUseCase.factory'
+import { updateProfileUseCaseFactory } from '@/useCases/factories/updateProfileUseCase.factory'
 import { ResourceNotFoundError } from '@/errors/resourceNotFound.error'
 import { UserAlreadyExistsError } from '@/errors/userAlreadyExists.error'
 
@@ -20,9 +20,9 @@ export async function updateProfileController(
   const user_id = request.user.sub
 
   try {
-    const updateServiceUseCase = updateServiceUseCaseFactory()
+    const updateProfileUseCase = updateProfileUseCaseFactory()
 
-    await updateServiceUseCase.execute({
+    await updateProfileUseCase.execute({
       user_id,
       name,
       email,

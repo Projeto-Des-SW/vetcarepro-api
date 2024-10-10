@@ -3,7 +3,7 @@ import { PrismaUsersRepository } from '@/repositories/prisma/prisma-users.reposi
 import { PrismaEmployeesRepository } from '@/repositories/prisma/prisma-employees.repository'
 import { UpdateProfileUseCase } from '@/useCases/updateProfile.useCase'
 
-export function updateServiceUseCaseFactory() {
+export function updateProfileUseCaseFactory() {
   const hashProvider = new BcryptProvider()
   const usersRepository = new PrismaUsersRepository()
   const employeesRepository = new PrismaEmployeesRepository()
