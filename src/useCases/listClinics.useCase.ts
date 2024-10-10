@@ -2,7 +2,6 @@ import { Clinic } from '@prisma/client'
 
 import { ClinicsRepository } from '@/repositories/interfaces/clinics.repository'
 import { EmployeesRepository } from '@/repositories/interfaces/employees.repository'
-import { ResourceNotFoundError } from '@/errors/resourceNotFound.error'
 
 interface IRequest {
   user_id: string
@@ -23,15 +22,13 @@ export class ListClinicsUseCase {
     if (!clinics.length) {
       const employee = await this.employeesRepository.findById(user_id)
 
-      const clinic = await this.clinicsRepository.findById(employee!.clinic_id)
+      if (employee) {
+        const clinic = await this.clinicsRepository.findById(employee.clinic_id)
 
-      if (clinic) {
-        clinics.push(clinic)
+        if (clinic) {
+          clinics.push(clinic)
+        }
       }
-    }
-
-    if (!clinics.length) {
-      throw new ResourceNotFoundError()
     }
 
     return { clinics }

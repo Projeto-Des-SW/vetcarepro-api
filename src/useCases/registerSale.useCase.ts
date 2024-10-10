@@ -35,7 +35,9 @@ export class RegisterSaleUseCase {
     if (!clinic) {
       const employee = await this.employeesRepository.findById(user_id)
 
-      clinic = await this.clinicsRepository.findById(employee!.clinic_id)
+      if (employee) {
+        clinic = await this.clinicsRepository.findById(employee.clinic_id)
+      }
     }
 
     if (!clinic) {

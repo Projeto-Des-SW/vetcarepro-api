@@ -10,7 +10,6 @@ import { deleteEmployeeController } from '../controllers/deleteEmployee.controll
 
 export async function employeesRoute(app: FastifyInstance) {
   app.addHook('onRequest', jwtMiddleware)
-  app.addHook('onRequest', userMiddleware)
 
   app.post('/clinics/:clinic_id/employees', registerEmployeeController)
   app.get('/clinics/:clinic_id/employees', listEmployeesController)
