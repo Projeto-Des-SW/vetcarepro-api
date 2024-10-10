@@ -7,5 +7,5 @@ import { updateTierController } from '../controllers/updateTier.controller'
 export async function tiersRoute(app: FastifyInstance) {
   app.addHook('onRequest', jwtMiddleware)
 
-  app.put('/clinics/:clinic_id/tiers', { onRequest: [userMiddleware] }, updateTierController)
+  app.put('/tiers', { onRequest: [userMiddleware] }, updateTierController)
 }
