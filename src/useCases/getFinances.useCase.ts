@@ -52,7 +52,7 @@ export class GetFinancesUseCase {
 
     await Promise.all(schedulesIsNotFinished.map(async (schedule) => {
       const service = await this.servicesRepository.findById(schedule.service_id)
-      totalValueSchedulesFinished += Number(service!.amount)
+      totalValueSchedulesPending += Number(service!.amount)
     }))
 
     await Promise.all(schedulesFinished.map(async (schedule) => {
