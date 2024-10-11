@@ -59,21 +59,22 @@ model Employee {
   clinic_id String
 
   schedules Schedule[]
+  payments  Payment[]
 
   @@map("employees")
 }
 
 model Clinic {
-  id          String  @id @default(uuid())
-  title       String  @unique
-  cnpj        String  @unique
+  id          String   @id @default(uuid())
+  title       String   @unique
+  cnpj        String   @unique
   email       String
   phone       String
   description String
   address     String
-  status      Boolean @default(true)
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now())
+  status      Boolean  @default(true)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @default(now())
 
   user    User   @relation(fields: [user_id], references: [id])
   user_id String
@@ -84,6 +85,7 @@ model Clinic {
   schedules Schedule[]
   products  Product[]
   sales     Sale[]
+  payments   Payment[]
 
   @@map("clinics")
 }
@@ -180,4 +182,18 @@ model Sale {
   products Product[] @relation("SalesProducts")
 
   @@map("sales")
+}
+
+model Payment {
+  id         String   @id @default(uuid())
+  amount     String
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+
+  clinic      Clinic   @relation(fields: [clinic_id], references: [id])
+  clinic_id   String
+  employee    Employee @relation(fields: [employee_id], references: [id])
+  employee_id String
+
+  @@map("payments")
 }

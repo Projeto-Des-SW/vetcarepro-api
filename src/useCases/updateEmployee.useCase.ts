@@ -14,7 +14,6 @@ interface IRequest {
   email?: string
   salary?: string
   position?: string
-  last_payment_date?: Date
   role?: $Enums.Roles
 }
 
@@ -25,7 +24,7 @@ interface IResponse {
 export class UpdateEmployeeUseCase {
   constructor(private employeesRepository: EmployeesRepository, private clinicsRepository: ClinicsRepository) {}
 
-  async execute({ user_id, clinic_id, employee_id, name, email, salary, position, last_payment_date, role }: IRequest): Promise<IResponse> {
+  async execute({ user_id, clinic_id, employee_id, name, email, salary, position, role }: IRequest): Promise<IResponse> {
     const clinic = await this.clinicsRepository.findByClinicIdAndUserId(clinic_id, user_id)
 
     if (!clinic) {
@@ -51,7 +50,6 @@ export class UpdateEmployeeUseCase {
     if (name) employee.name = name
     if (salary) employee.salary = salary
     if (position) employee.position = position
-    if (last_payment_date) employee.last_payment_date = last_payment_date
     if (role) employee.role = role
 
     await this.employeesRepository.save(employee)

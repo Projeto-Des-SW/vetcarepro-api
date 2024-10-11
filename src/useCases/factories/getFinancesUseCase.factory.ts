@@ -3,6 +3,7 @@ import { PrismaEmployeesRepository } from '@/repositories/prisma/prisma-employee
 import { PrismaSchedulesRepository } from '@/repositories/prisma/prisma-schedules.repository'
 import { PrismaServicesRepository } from '@/repositories/prisma/prisma-services.repository'
 import { PrismaSalesRepository } from '@/repositories/prisma/prisma-sales.repository'
+import { PrismaPaymentsRepository } from '@/repositories/prisma/prisma-payments.repository'
 import { GetFinancesUseCase } from '@/useCases/getFinances.useCase'
 
 export function getFinancesUseCaseFactory() {
@@ -11,7 +12,8 @@ export function getFinancesUseCaseFactory() {
   const schedulesRepository = new PrismaSchedulesRepository()
   const servicesRepository = new PrismaServicesRepository()
   const salesRepository = new PrismaSalesRepository()
-  const getFinancesUseCase = new GetFinancesUseCase(clinicsRepository, employeesRepository, schedulesRepository, servicesRepository, salesRepository)
+  const paymentsRepository = new PrismaPaymentsRepository()
+  const getFinancesUseCase = new GetFinancesUseCase(clinicsRepository, employeesRepository, schedulesRepository, servicesRepository, salesRepository, paymentsRepository)
 
   return getFinancesUseCase
 }

@@ -8,15 +8,16 @@ import { env } from './env'
 import { authenticateRoute } from './http/routes/authenticate.route'
 import { clinicsRoute } from './http/routes/clinics.route'
 import { employeesRoute } from './http/routes/employees.route'
-import { financesRoute } from './http/routes/finances.routes'
+import { financesRoute } from './http/routes/finances.route'
 import { onboardingsRoute } from './http/routes/onboardings.route'
 import { patientsRoute } from './http/routes/patients.route'
+import { paymentsRoute } from './http/routes/payments.route'
 import { productsRoute } from './http/routes/products.route'
 import { profileRoute } from './http/routes/profile.route'
 import { salesRoute } from './http/routes/sales.route'
 import { schedulesRoute } from './http/routes/schedules.route'
 import { servicesRoute } from './http/routes/services.route'
-import { tiersRoute } from './http/routes/tiers.routes'
+import { tiersRoute } from './http/routes/tiers.route'
 import { usersRoute } from './http/routes/users.route'
 
 export const app = fastify()
@@ -31,6 +32,7 @@ app.register(employeesRoute)
 app.register(financesRoute)
 app.register(onboardingsRoute)
 app.register(patientsRoute)
+app.register(paymentsRoute)
 app.register(productsRoute)
 app.register(profileRoute)
 app.register(salesRoute)
