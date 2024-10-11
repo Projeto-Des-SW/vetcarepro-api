@@ -21,6 +21,9 @@ export class PrismaClinicsRepository implements ClinicsRepository {
     return await prisma.clinic.findUnique({
       where: {
         id
+      },
+      include: {
+        user: true
       }
     })
   }

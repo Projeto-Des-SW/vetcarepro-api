@@ -1,5 +1,6 @@
 import { UsersRepository } from '@/repositories/interfaces/users.repository'
 import { EmployeesRepository } from '@/repositories/interfaces/employees.repository'
+import { ClinicsRepository } from '@/repositories/interfaces/clinics.repository'
 import { ResourceNotFoundError } from '@/errors/resourceNotFound.error'
 
 interface IRequest {
@@ -15,7 +16,7 @@ interface IResponse {
 }
 
 export class GetProfileUseCase {
-  constructor(private usersRepository: UsersRepository, private employeesRepository: EmployeesRepository) {}
+  constructor(private usersRepository: UsersRepository, private employeesRepository: EmployeesRepository, private clinicsRepository: ClinicsRepository) {}
 
   async execute({ user_id }: IRequest): Promise<IResponse | undefined> {
     const user = await this.usersRepository.findById(user_id)
@@ -35,11 +36,15 @@ export class GetProfileUseCase {
     }
 
     if (employee) {
+      const clinic = await this.clinicsRepository.findById(employee.clinic_id)
+      const user = await this.usersRepository.findById(clinic!.user_id)
+
       return { 
         id: employee.id,
         name: employee.name,
         email: employee.email,
-        role: employee.role
+        role: employee.role,
+        tier: user?.tier
       }
     }
   }
